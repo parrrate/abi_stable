@@ -401,8 +401,8 @@ pub struct MonoTypeLayout {
     name_len: u16,
 }
 
-#[allow(clippy::too_many_arguments)]
 impl MonoTypeLayout {
+    #[allow(clippy::too_many_arguments)]
     pub(crate) const fn new(
         shared_vars: MonoSharedVars,
         name: RStr<'static>,

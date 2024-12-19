@@ -50,7 +50,7 @@ mod cond_fields {
 
 pub struct DerefTo {
     pub first: &'static str,
-    #[expect(unused)]
+    #[allow(dead_code)]
     pub second: &'static str,
     pub third: &'static str,
     pub fourth: &'static str,

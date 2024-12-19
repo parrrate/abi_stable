@@ -58,10 +58,7 @@ pub struct PhantModule<T: Copy> {
 #[sabi(with_constructor)]
 #[non_exhaustive]
 pub enum ValidTag {
-    #[allow(missing_docs)]
     Foo,
-    #[allow(missing_docs)]
     Bar,
-    #[allow(missing_docs)]
     Tag { name: RString, tag: RString },
 }

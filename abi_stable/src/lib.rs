@@ -243,7 +243,6 @@ mod macros;
 #[macro_use]
 mod test_macros;
 
-#[allow(missing_docs)]
 #[cfg(feature = "testing")]
 #[macro_use]
 pub mod test_utils;

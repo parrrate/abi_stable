@@ -172,6 +172,7 @@ pub(crate) struct ScratchSpace<T, Inline> {
 union ScratchSpaceInner<T, Inline> {
     value: ManuallyDrop<T>,
     storage: ManuallyDrop<Inline>,
+    /// It's better for us to handle rustc complaining about ABI than make users do so.
     uninit: ManuallyDrop<MaybeUninit<Inline>>,
 }
 
@@ -180,7 +181,6 @@ union ScratchSpaceInner<T, Inline> {
 // it is never actually constructed.
 impl<T, Inline> ScratchSpace<T, Inline> {
     #[inline]
-    #[allow(dead_code)]
     #[track_caller]
     pub(crate) const fn uninit() -> Self {
         Self::assert_fits_within_storage();
@@ -192,7 +192,6 @@ impl<T, Inline> ScratchSpace<T, Inline> {
     }
 
     #[inline]
-    #[allow(dead_code)]
     #[track_caller]
     pub(crate) const fn new(value: T) -> Self {
         Self::assert_fits_within_storage();
