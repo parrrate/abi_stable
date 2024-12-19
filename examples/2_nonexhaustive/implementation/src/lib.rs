@@ -162,12 +162,16 @@ impl Shop for ShopState {
     }
 }
 
+// `#[allow(improper_ctypes_definitions)]` because NE correctness is checked
+
 #[sabi_extern_fn]
+#[allow(improper_ctypes_definitions)]
 fn deserialize_command(s: RStr<'_>) -> RResult<Command_NE, RBoxError> {
     deserialize_json::<Command>(s).map(NonExhaustiveFor::new)
 }
 
 #[sabi_extern_fn]
+#[allow(improper_ctypes_definitions)]
 fn deserialize_ret_val(s: RStr<'_>) -> RResult<ReturnVal_NE, RBoxError> {
     deserialize_json::<ReturnVal>(s).map(NonExhaustiveFor::new)
 }
