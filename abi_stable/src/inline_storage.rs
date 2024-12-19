@@ -1,6 +1,9 @@
 //! Contains the `InlineStorage` trait,and related items.
 
-use std::{marker::PhantomData, mem::ManuallyDrop};
+use std::{
+    marker::PhantomData,
+    mem::{ManuallyDrop, MaybeUninit},
+};
 
 /// Type used as the inline storage of a RSmallBox<>/NonExhaustive<>.
 ///
@@ -169,7 +172,7 @@ pub(crate) struct ScratchSpace<T, Inline> {
 union ScratchSpaceInner<T, Inline> {
     value: ManuallyDrop<T>,
     storage: ManuallyDrop<Inline>,
-    uninit: (),
+    uninit: ManuallyDrop<MaybeUninit<Inline>>,
 }
 
 // These constructors don't require `Inline: InlineStorage` because
@@ -182,7 +185,9 @@ impl<T, Inline> ScratchSpace<T, Inline> {
     pub(crate) const fn uninit() -> Self {
         Self::assert_fits_within_storage();
         Self {
-            inner: ScratchSpaceInner { uninit: () },
+            inner: ScratchSpaceInner {
+                uninit: ManuallyDrop::new(MaybeUninit::uninit()),
+            },
         }
     }
 
