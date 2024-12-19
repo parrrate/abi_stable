@@ -439,7 +439,7 @@ struct UncheckedPrefixKind<'a> {
     replacing_prefix_ref_docs: &'a [syn::Expr],
 }
 
-impl<'a> Default for UncheckedStabilityKind<'a> {
+impl Default for UncheckedStabilityKind<'_> {
     fn default() -> Self {
         UncheckedStabilityKind::Value {
             impl_prefix_stable_abi: false,

@@ -31,37 +31,16 @@ macro_rules! declare_arenas {
                 self.alloc_mut(value)
             }
 
-            fn alloc_mut(&self, value: T) -> &mut T ;
-
-            fn alloc_extend<I>(&self, iterable: I) -> &[T]
-            where
-                I: IntoIterator<Item = T>
-            {
-                self.alloc_extend_mut(iterable)
-            }
-
-            fn alloc_extend_mut<I>(&self, iterable: I) -> &mut [T]
-            where
-                I: IntoIterator<Item = T>;
+            fn alloc_mut(&self, value: T) -> &mut T;
         }
-
 
         $(
             impl AllocMethods<$arena_type> for Arenas{
                 fn alloc_mut(&self, value: $arena_type) -> &mut $arena_type {
                     self.$field_name.alloc(value)
                 }
-
-                fn alloc_extend_mut<I>(&self, iterable: I) -> &mut [$arena_type]
-                where
-                    I: IntoIterator<Item = $arena_type>
-                {
-                    self.$field_name.alloc_extend(iterable)
-                }
             }
-
         )*
-
     }
 }
 

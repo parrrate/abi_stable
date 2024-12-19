@@ -392,7 +392,7 @@ fn first_items(
             _marker:__sabi_re::UnsafeIgnoredType< __sabi_re::#send_syncness >,
         }
 
-        const __inside_generated_mod:()={
+        const _:()={
             use abi_stable::{
                 InterfaceType,
                 type_level::{

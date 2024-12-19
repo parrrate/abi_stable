@@ -61,7 +61,7 @@ impl<'a, 'b> LifetimeUnelider<'a, 'b> {
     }
 }
 
-impl<'a, 'b> LifetimeUnelider<'a, 'b> {
+impl<'a> LifetimeUnelider<'a, '_> {
     fn setup_lifetime(&mut self) -> Lifetime {
         let additional_lifetime_def = &mut self.additional_lifetime_def;
         let x = self.self_lifetime.get_or_insert_with(|| {
@@ -73,7 +73,7 @@ impl<'a, 'b> LifetimeUnelider<'a, 'b> {
         (*x).clone()
     }
 }
-impl<'a, 'b> VisitMut for LifetimeUnelider<'a, 'b> {
+impl VisitMut for LifetimeUnelider<'_, '_> {
     fn visit_type_reference_mut(&mut self, ref_: &mut TypeReference) {
         if is_self_borrow(self.self_lifetime, ref_) {
             self.contains_self_borrow = true;
@@ -118,11 +118,11 @@ fn is_self_borrow(self_lifetime: &Option<&Lifetime>, tr: &TypeReference) -> bool
 mod tests {
     use super::*;
 
-    fn get_self_borrow_kind<'a, 'b>(
-        mut self_lifetime: Option<&'a syn::Lifetime>,
-        mut ty: Type,
+    fn get_self_borrow_kind(
+        mut self_lifetime: Option<&syn::Lifetime>,
+        ty: Type,
     ) -> Option<BorrowKind> {
-        let mut this = LifetimeUnelider::new(&mut self_lifetime);
+        let this = LifetimeUnelider::new(&mut self_lifetime);
         let ret = this.visit_type(&mut ty.clone());
         ret.found_borrow_kind
     }

@@ -5,11 +5,13 @@ authors = ["rodrimati1992 <rodrimatt1985@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-abi_stable={path="../../../abi_stable"}
-core_extensions={ version = "1.5.2", default_features = false, features = ["std"] }
-serde={ version = "1.0.136", features = ["derive"] }
-serde_json={ version = "1.0.79", features = ["raw_value"] }
+abi_stable = { path = "../../../abi_stable" }
+core_extensions = { version = "1.5.2", default-features = false, features = [
+    "std",
+] }
+serde = { version = "1.0.136", features = ["derive"] }
+serde_json = { version = "1.0.79", features = ["raw_value"] }
 
 
 [features]
-v1_1=[]
+v1_1 = []

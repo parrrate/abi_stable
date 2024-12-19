@@ -138,7 +138,7 @@ impl<'a, T> TypeParamMap<'a, T> {
     }
 }
 
-impl<'a, T> Index<usize> for TypeParamMap<'a, T> {
+impl<T> Index<usize> for TypeParamMap<'_, T> {
     type Output = T;
 
     fn index(&self, index: usize) -> &T {
@@ -146,13 +146,13 @@ impl<'a, T> Index<usize> for TypeParamMap<'a, T> {
     }
 }
 
-impl<'a, T> IndexMut<usize> for TypeParamMap<'a, T> {
+impl<T> IndexMut<usize> for TypeParamMap<'_, T> {
     fn index_mut(&mut self, index: usize) -> &mut T {
         &mut self.ty_params[index]
     }
 }
 
-impl<'a, T> Index<&Ident> for TypeParamMap<'a, T> {
+impl<T> Index<&Ident> for TypeParamMap<'_, T> {
     type Output = T;
 
     fn index(&self, ident: &Ident) -> &T {
@@ -161,7 +161,7 @@ impl<'a, T> Index<&Ident> for TypeParamMap<'a, T> {
     }
 }
 
-impl<'a, T> IndexMut<&Ident> for TypeParamMap<'a, T> {
+impl<T> IndexMut<&Ident> for TypeParamMap<'_, T> {
     fn index_mut(&mut self, ident: &Ident) -> &mut T {
         let index = self.idents.map[ident];
         &mut self.ty_params[index]
@@ -175,7 +175,7 @@ pub trait Getter<Index> {
     fn get_mut_inner(&mut self, index: Index) -> Result<&mut Self::Elem, syn::Error>;
 }
 
-impl<'a, T> Getter<usize> for TypeParamMap<'a, T> {
+impl<T> Getter<usize> for TypeParamMap<'_, T> {
     type Elem = T;
 
     fn get_inner(&self, index: usize) -> Result<&Self::Elem, syn::Error> {
@@ -191,7 +191,7 @@ impl<'a, T> Getter<usize> for TypeParamMap<'a, T> {
     }
 }
 
-impl<'a, T> Getter<&Ident> for TypeParamMap<'a, T> {
+impl<T> Getter<&Ident> for TypeParamMap<'_, T> {
     type Elem = T;
 
     fn get_inner(&self, ident: &Ident) -> Result<&Self::Elem, syn::Error> {

@@ -5,10 +5,10 @@ authors = ["rodrimati1992 <rodrimatt1985@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-abi_stable={path="../../../abi_stable"}
-core_extensions={ version = "1.5.2", default_features = false }
+abi_stable = { path = "../../../abi_stable" }
+core_extensions = { version = "1.5.2", default-features = false }
 
 [dependencies.version_compatibility_interface]
-version="0.1"
-path="../interface"
+version = "0.1"
+path = "../interface"
 features = ["new"]

@@ -1353,13 +1353,19 @@ mod priv_ {
     pub trait ReborrowBounds<SendNess, SyncNess> {}
 
     // If it's reborrowing, it must have either both Sync+Send or neither.
-    impl ReborrowBounds<Unimplemented<trait_marker::Send>, Unimplemented<trait_marker::Sync>>
-        for PrivStruct
+    impl
+        ReborrowBounds<
+            Unimplemented<trait_marker::Send>,
+            Unimplemented<trait_marker::Sync>,
+        > for PrivStruct
     {
     }
 
-    impl ReborrowBounds<Implemented<trait_marker::Send>, Implemented<trait_marker::Sync>>
-        for PrivStruct
+    impl
+        ReborrowBounds<
+            Implemented<trait_marker::Send>,
+            Implemented<trait_marker::Sync>,
+        > for PrivStruct
     {
     }
 
@@ -1546,7 +1552,9 @@ mod priv_ {
         pub fn default(&self) -> Self
         where
             P: AsPtr + GetPointerKind<Kind = PK_SmartPointer>,
-            I: InterfaceType<Default = Implemented<trait_marker::Default>>,
+            I: InterfaceType<
+                Default = Implemented<trait_marker::Default>,
+            >,
             EV: Copy,
         {
             unsafe {
@@ -1562,7 +1570,9 @@ mod priv_ {
         pub fn serialize_into_proxy<'a>(&'a self) -> Result<I::ProxyType, RBoxError>
         where
             P: AsPtr,
-            I: InterfaceType<Serialize = Implemented<trait_marker::Serialize>>,
+            I: InterfaceType<
+                Serialize = Implemented<trait_marker::Serialize>,
+            >,
             I: GetSerializeProxyType<'a>,
         {
             unsafe { self.sabi_vtable().serialize()(self.sabi_erased_ref()).into_result() }
@@ -1972,7 +1982,11 @@ where
     Self: Iterator<Item = Item>,
     P: AsMutPtr,
     I: IteratorItemOrDefault<'borr, Item = Item>,
-    I: InterfaceType<DoubleEndedIterator = Implemented<trait_marker::DoubleEndedIterator>>,
+    I: InterfaceType<
+        DoubleEndedIterator = Implemented<
+            trait_marker::DoubleEndedIterator,
+        >,
+    >,
     Item: 'borr,
 {
     fn next_back(&mut self) -> Option<Item> {
@@ -1988,7 +2002,11 @@ where
     Self: Iterator<Item = Item>,
     P: AsMutPtr,
     I: IteratorItemOrDefault<'borr, Item = Item>,
-    I: InterfaceType<DoubleEndedIterator = Implemented<trait_marker::DoubleEndedIterator>>,
+    I: InterfaceType<
+        DoubleEndedIterator = Implemented<
+            trait_marker::DoubleEndedIterator,
+        >,
+    >,
     Item: 'borr,
 {
     /// Gets teh `nth` element from the back of the iterator.

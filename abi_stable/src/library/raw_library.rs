@@ -14,8 +14,11 @@ impl RawLibrary {
     pub fn path_in_directory(directory: &Path, base_name: &str, suffix: LibrarySuffix) -> PathBuf {
         let formatted: String;
 
-        let is_64_bits =
-            cfg!(any(x86_64, powerpc64, aarch64)) || ::std::mem::size_of::<usize>() == 8;
+        let is_64_bits = cfg!(any(
+            target_arch = "x86_64",
+            target_arch = "powerpc64",
+            target_arch = "aarch64"
+        )) || ::std::mem::size_of::<usize>() == 8;
         let bits = if is_64_bits { "64" } else { "32" };
 
         let maybe_suffixed_name = match suffix {

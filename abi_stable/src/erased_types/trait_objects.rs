@@ -30,9 +30,9 @@ pub struct HasherObject<'a> {
 
 impl<'a> HasherObject<'a> {
     /// Constructs a `HasherObject`.
-    pub fn new<T: 'a>(this: &'a mut T) -> HasherObject<'a>
+    pub fn new<T>(this: &'a mut T) -> HasherObject<'a>
     where
-        T: Hasher,
+        T: 'a + Hasher,
     {
         HasherObject {
             this: unsafe {

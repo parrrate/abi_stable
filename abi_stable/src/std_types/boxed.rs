@@ -619,7 +619,7 @@ pub(crate) struct BoxVtable<T> {
     _marker: NonOwningPhantom<T>,
 }
 
-struct VTableGetter<'a, T>(&'a T);
+struct VTableGetter<'a, T>(PhantomData<&'a T>);
 
 impl<'a, T: 'a> VTableGetter<'a, T> {
     const DEFAULT_VTABLE: BoxVtable<T> = BoxVtable {

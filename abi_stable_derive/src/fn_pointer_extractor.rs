@@ -233,7 +233,7 @@ impl FnParamRetLifetimes {
 
 /////////////
 
-impl<'a> Vars<'a> {
+impl Vars<'_> {
     /// Registers a lifetime index,
     /// selecting those that come from the type declaration itself.
     pub fn add_referenced_env_lifetime(&mut self, ind: LifetimeIndex) {
@@ -315,8 +315,8 @@ impl<'a> VisitMut for TypeVisitor<'a> {
         };
 
         // Visits a parameter or return type within a function pointer type.
-        fn visit_param_ret<'a, 'b>(
-            this: &mut FnVisitor<'a, 'b>,
+        fn visit_param_ret<'a>(
+            this: &mut FnVisitor<'a, '_>,
             name: Option<&'a Ident>,
             ty: &'a mut Type,
             param_or_ret: ParamOrReturn,
@@ -400,7 +400,7 @@ impl<'a> VisitMut for TypeVisitor<'a> {
 
 /////////////
 
-impl<'a, 'b> FnVisitor<'a, 'b> {
+impl<'a> FnVisitor<'a, '_> {
     /// This function does these things:
     ///
     /// - Adds the lifetime as a referenced lifetime.
@@ -475,7 +475,7 @@ impl<'a, 'b> FnVisitor<'a, 'b> {
     }
 }
 
-impl<'a, 'b> VisitMut for FnVisitor<'a, 'b> {
+impl VisitMut for FnVisitor<'_, '_> {
     #[inline(never)]
     fn visit_type_bare_fn_mut(&mut self, func: &mut TypeBareFn) {
         self.vars.errors.push_err(syn_err!(
@@ -540,7 +540,7 @@ fn extract_fn_arg_name<'a>(
 
 /////////////
 
-impl<'a> Function<'a> {
+impl Function<'_> {
     /// Turns lifetimes in the function parameters that aren't
     /// used in the return type or used only once into LifeimeIndex::ANONYMOUS,
     fn anonimize_lifetimes(

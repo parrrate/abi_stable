@@ -731,11 +731,8 @@ pub(crate) fn tokenize_enum_info<'a>(
                 let unimpld_a = unimpld.iter();
                 let unimpld_b = unimpld.iter();
 
-                let const_ident =
-                    parse_str_as_ident(&format!("_impl_InterfaceType_constant_{}", name,));
-
                 quote!(
-                    const #const_ident:()={
+                    const _:()={
                         use abi_stable::{
                             InterfaceType,
                             type_level::{

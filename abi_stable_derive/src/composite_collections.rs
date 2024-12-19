@@ -110,7 +110,7 @@ pub struct StartLenTokenizer<'a, N> {
     ctokens: &'a StartLenTokens,
 }
 
-impl<'a, N> ToTokens for StartLenTokenizer<'a, N>
+impl<N> ToTokens for StartLenTokenizer<'_, N>
 where
     N: ToTokens,
 {

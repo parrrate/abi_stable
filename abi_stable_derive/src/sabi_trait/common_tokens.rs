@@ -59,8 +59,8 @@ impl PartialEq for CommonTokens {
 }
 
 impl PartialOrd for CommonTokens {
-    fn partial_cmp(&self, _other: &Self) -> Option<Ordering> {
-        Some(Ordering::Equal)
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
     }
 }
 

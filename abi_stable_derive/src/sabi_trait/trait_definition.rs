@@ -35,7 +35,7 @@ use proc_macro2::Span;
 
 #[derive(Debug, Clone)]
 pub struct AssocTyWithIndex {
-    pub index: usize,
+    pub _index: usize,
     pub assoc_ty: syn::TraitItemType,
 }
 
@@ -84,7 +84,6 @@ pub(crate) struct TraitDefinition<'a> {
     pub(crate) submod_vis: RelativeVis<'a>,
     // The keys use the proginal identifier for the associated type.
     pub(crate) assoc_tys: HashMap<&'a Ident, AssocTyWithIndex>,
-    ///
     pub(crate) methods: Vec<TraitMethod<'a>>,
     /// Whether this has by mutable reference methods.
     pub(crate) has_mut_methods: bool,
@@ -195,7 +194,7 @@ impl<'a> TraitDefinition<'a> {
                 TraitItem::Method { .. } => {}
                 TraitItem::Type(assoc_ty) => {
                     let with_index = AssocTyWithIndex {
-                        index: assoc_ty_index,
+                        _index: assoc_ty_index,
                         assoc_ty: assoc_ty.clone(),
                     };
                     assoc_tys.insert(&assoc_ty.ident, with_index);
@@ -604,7 +603,7 @@ pub struct GenericsTokenizer<'a> {
     assoc_tys: Option<(&'a HashMap<&'a Ident, AssocTyWithIndex>, &'a TokenStream2)>,
 }
 
-impl<'a> GenericsTokenizer<'a> {
+impl GenericsTokenizer<'_> {
     /// Changes type parameters to have a `?Sized` bound.
     #[allow(dead_code)]
     pub fn set_unsized_types(&mut self) {
@@ -623,7 +622,7 @@ impl<'a> GenericsTokenizer<'a> {
     }
 }
 
-impl<'a> ToTokens for GenericsTokenizer<'a> {
+impl ToTokens for GenericsTokenizer<'_> {
     fn to_tokens(&self, ts: &mut TokenStream2) {
         let with_bounds = self.gen_params_in.outputs_bounds();
         let with_default = self.gen_params_in.in_what == InWhat::ItemDecl;

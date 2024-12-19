@@ -239,11 +239,6 @@ pub(crate) fn impl_interfacetype_tokenizer<'a>(
 
         let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
-        let const_ident = crate::parse_utils::parse_str_as_ident(&format!(
-            "_impl_InterfaceType_constant_{}",
-            name,
-        ));
-
         let impld_a = impld;
         let impld_b = impld;
 
@@ -253,7 +248,7 @@ pub(crate) fn impl_interfacetype_tokenizer<'a>(
         let priv_assocty = private_associated_type();
 
         quote!(
-            const #const_ident:()={
+            const _:()={
                 use abi_stable::{
                     type_level::{
                         impl_enum::{

@@ -1,8 +1,14 @@
-This is the changelog,summarising changes in each version
+# Changelog
+
+This is the changelog, summarising changes in each version
 
 Minor changes may be ommited, as well as improvements to documentation.
 
-# 0.11
+## Unreleased
+
+Bumped MSRV to 1.63 (`libc` crate requires it).
+
+## 0.11
 
 ### 0.11.3
 
@@ -21,6 +27,7 @@ Breaking: made `unsafe` function pointers ABI incompatible with safe ones.
 Defined the `TLFunctionQualifiers` type to be forward compatible with detecting more qualifiers on function pointers, like `const`.
 
 Fixed these types to be covariant instead of invariant over their type parameters:
+
 - `RVec`
 - `RHashMap`
 - `RBox`
@@ -37,6 +44,7 @@ Removed `BorrowOwned` trait.
 Made the comparison traits accept `RCow`s with different type arguments.
 
 Added these conversion impls:
+
 - `From<&'a RVec<T>> for RCowSlice<'a, T>`
 - `From<&'a Vec<T>> for RCowSlice<'a, T>`
 
@@ -47,6 +55,7 @@ Removed `ImmutableRef::{Target, TARGET}` associated items
 Removed `ImmutableRefOut` type alias.
 
 Changed many `#[sabi(...)]` attributes away from taking string literals for expressions and types:
+
 - From `accessor_bound = "Foo"` to `accessor_bound = Foo`
 - From `accessible_if = "FOO"` to `accessible_if = FOO`
 - From `bound = "T: Bar"` to `bound(T: Bar)` (container attribute)
@@ -82,6 +91,7 @@ Made `#[sabi(assert_nonexhaustive(..))]` attribute implicit for non-generic enum
 Added `AlignerFor` trait and `GetAlignerFor` type alias, to query the `AlignTo*` type for aligning some type to some required alignment constant.
 
 Defined these aligner wrapper types
+
 - `AlignTo256`
 - `AlignTo512`
 - `AlignTo1024`
@@ -90,7 +100,6 @@ Defined these aligner wrapper types
 - `AlignTo8192`
 - `AlignTo16384`
 - `AlignTo32768`
-
 
 Removed `InterfaceBound` trait, replacing it in bounds with `InterfaceType`.
 
@@ -125,7 +134,7 @@ Removed `DynTrait::from_const`'s `vtable_for` parameter.
 Made `abi_stable::erased_types::VTable_Ref` public.
 
 Changed how `DynTrait`'s vtable is constructed to use a new `MakeVTable` trait, and implementing it on `Vtable_Ref`.
-    
+
 Removed `VTableDT*` structs
 
 Removed `PrefixRef::const_to_raw_ptr` function (`to_raw_ptr` is a const function).
@@ -139,17 +148,18 @@ Replaced `PointsToPrefixFields` parameter from `LateStaticRef::from_prefixref` w
 Removed `prefix_type::GetWithMetadata` by changing supertraits of `PrefixRefTrait` to an equivalent bound.
 
 Removed `PrefixMetadata`, inlined its fields into `WithMetadata_`
-    
+
 Removed `PrefixTypeTrait::METADATA` associated constant
-    
+
 Replaced `WithMetadata_::new`'s `metadata` parameter with `T: PrefixTypeTrait<PrefixFields = P>` bound
-    
+
 Removed `metadata` method from `PrefixRef`
 
 Moved `prefix_type::{BoolArray, BoolArrayIter}` to new `sabi_types::bitarray` module, and renamed:
+
 - `BoolArray` to `BitArray64`.
 - `BoolArrayIter` to `BitArray64Iter`.
-    
+
 Added `sabi_types::bitarray::BooleanEnum` `unsafe trait`, with `FALSE` and `TRUE` associated consts,
 implemented it for `bool`, `IsAccessible`, and `IsConditional`.
 
@@ -160,7 +170,6 @@ Removed `BitArray64<IsAccessible>` and `BitArray64<IsConditional>` impls, since 
 Moved `field_accessibility` and `type_layout` accessors from `PrefixMetadata` to `WithMetadata_` and `PrefixRef`
 
 Replaced `ImmutableRefTarget` parameter from `abi_stable::sabi_types::LateStaticRef::from_custom` with `T: GetPointerKind<Kind = PK_Reference>` bounds.
-
 
 `ErasedRootModuleConsts` is now `RootModuleConsts`, replacing the old one that had a phantom `M` type parameter.
 
@@ -191,6 +200,7 @@ Added `RTuple*::from_tuple` methods.
 Added free `const fn` equivalents of the `ImmutableRef` trait in the `pointer_trait::immutable_ref` module.
 
 Made these functions `const`, conditional on the `"rust_1_64"` feature:
+
 - `RSliceMut::{as_slice, into_slice}`
 - `RSlice::as_slice`
 - `RStr::as_str`
@@ -200,11 +210,12 @@ Made these functions `const`, conditional on the `"rust_1_64"` feature:
 - `RCow::as_slice`
 
 Added these `const` functions, which require the `"rust_1_64"` feature:
+
 - `NulStr::const_to_str`
 - `NulStr::const_to_str_with_nul`
 
-
 Made these functions unconditionally `const`:
+
 - `DynTrait::{sabi_as_vtable, sabi_extra_value}`
 - `LibHeader::{layout, root_mod_consts, version_strings}`
 - `MovePtr::{from_rmut, from_raw, into_raw, transmute}`
@@ -227,9 +238,8 @@ Made these functions unconditionally `const`:
 - `utils::transmute_reference`
 - many `abi_stable::type_layout` functions
 
-
-
 Defined these new const functions
+
 - `RCmpOdering::from_ordering`
 - `RCow::{from_str, from_slice}`
 
@@ -244,9 +254,9 @@ Changed `#[sabi_trait]`-generated docs to link to more referenced items.
 Replaced `vtable_for` parameter of `from_const` constructor of `#[sabi_trait]`-generated trait objects with trait bounds.
 
 Removed these `#[sabi_trait]`-generated items:
+
 - `_Bounds` trait: moving the lifetime supertraits to the `#[sabi_trait]`-annotated trait
 - `_MV` struct
-
 
 Made `abi_stable::nonexhaustive_enum::GetVTable` not have `GetEnumInfo` as its supertrait
 
@@ -261,27 +271,25 @@ Added `abi_stable::nonexhaustive_enum::assert_correct_storage` const function.
 Replaced `GetEnumInfo::discriminants` function with `DISCRIMINANTS` associated constant.
 
 Renamed `GetNonExhaustive` to `NonExhaustiveMarker`
-    
+
 Renamed `NonExhaustiveMarker::NonExhaustive` assoc type to `Marker`
 
 Removed `DiscrEnumInfo`
 
 Removed `GetTypeLayoutCtor` and `TypeLayoutCtor` type alias
 
-Removed `UNSAFE_EXTERN_FN_LAYOUT` and `EXTERN_FN_LAYOUT` 
+Removed `UNSAFE_EXTERN_FN_LAYOUT` and `EXTERN_FN_LAYOUT`
 
-    
 Replaced `ConstGeneric::new`'s `vtable_for` parameter with `T: StableAbi + Eq + PartialEq + Debug + Send + Sync + 'static` bound
 
 Made `abi_stable::abi_stability::const_generics` private, exporting `ConstGeneric` in `abi_stable::abi_stability::ConstGeneric`.
 
-
 Replaced all uses of `TypeLayoutCtor` whenever possible with function pointers, using `Constructor<&'static TypeLayout'>` in types that impl `Debug`/`PartialEq`
-
 
 Made all structs in  `abi_stable::inline_storage::alignment` implement `Debug`, `StableAbi`, `PartialEq`, `Eq`, `Copy`, and `Clone`
 
 Added `Eq` derive for these types:
+
 - `abi_stable::pointer_trait::CallReferentDrop`
 - `abi_stable::sabi_types::NulStrError`
 - `abi_stable::sabi_types::version::ParseVersionError`
@@ -295,7 +303,8 @@ Removed `nul_str` macro
 
 Removed `std::library::mangled_root_module_loader_name` function.
 
-Minor changes to type layout types: 
+Minor changes to type layout types:
+
 - Added `F32` and `F64` variants to `TLPrimitive`
 - Removed `len` field from `TLPrimitive::Array`
 
@@ -306,12 +315,10 @@ Removed `once_cell` dependency, previously it was only a dependency to keep abi_
 Bumped `parking_lot` public dependency to `0.12.0`
 
 Removed all `rust_*` features up to 1.61.0, making items that require 1.61.0 unconditional
-    
+
 Added `"rust_1_64"` feature for items that requires that version.
 
-
-
-# 0.10
+## 0.10
 
 ### 0.10.5
 
@@ -334,8 +341,7 @@ Added `ROption::as_deref` method.
 
 ### 0.10.3
 
-
-Bumped Minimum Supported Rust Version to 1.46.0 because fixing support for Rust nightly caused Internal Compiler Errors in older Rust versions. 
+Bumped Minimum Supported Rust Version to 1.46.0 because fixing support for Rust nightly caused Internal Compiler Errors in older Rust versions.
 
 Added `StableAbi` impls for `f32` and `f64`.
 
@@ -344,6 +350,7 @@ Fixed error in `StableAbi` derive caused by using the derive inside a function w
 Deprecated `abi_stable::library::mangled_root_module_loader_name` function.
 
 Superceeded the `mangled_root_module_loader_name` function (and uses of it) with these `abi_stable::library` constants:
+
 - `ROOT_MODULE_LOADER_NAME`
 - `ROOT_MODULE_LOADER_NAME_WITH_NUL`
 - `ROOT_MODULE_LOADER_NAME_NULSTR`
@@ -377,6 +384,7 @@ Added `Index` and `IndexMut` impls for `RSliceMut` and `RVec`
 Added `Index` impl for `RSlice`
 
 Changed these methods to use `R: RangeBounds<usize>` instead of `[T]: Index<I, Output = [T]>` or `Index<I, Output = [T]>`:
+
 - `RVec::slice`
 - `RVec::slice_mut`
 - `RVec::drain`
@@ -395,41 +403,45 @@ Enabled the "macro_utils" feature of `core_extensions`
 
 ### 0.10.1
 
-Fixed support for building in ARM, from this pull request: https://github.com/rodrimati1992/abi_stable_crates/pull/50
+Fixed support for building in ARM, from this pull request: <https://github.com/rodrimati1992/abi_stable_crates/pull/50>
 (if this causes other problems with ARM please create an issue!)
 
 ### 0.10.0
 
-Fixed soundness of the code under the Stacked Borrows model, by replacing uses of type-erased `&` and `&mut`s in trait objects and vtables with `RRef` and `RMut`. 
+Fixed soundness of the code under the Stacked Borrows model, by replacing uses of type-erased `&` and `&mut`s in trait objects and vtables with `RRef` and `RMut`.
 
 Added `AsPtr` and `AsMutPtr` traits. implemented for all erasable pointer types.
 
 Reexported `crate::erased_types::InterfaceBound` in root module
 
 Unimplemented `Deref` for `RRef`
-    
+
 Unimplemented `Deref` and `DerefMut` for `RMut`
 
 Replaced all `Deref` and `DerefMut` bounds in trait object types with `GetPointerKind`/`AsPtr`/`AsMutPtr`.
 
 Removed `RRef::transmute` which turns `RRef<'a, T>` into `RRef<'b, U>`
-    
+
 Renamed `RRef`:
+
 - `get_raw`: to `as_ptr`
 - `transmute_ref`: to `transmute`
 - `cast_into_raw`: to `transmute_into_raw`
 
 Added these RRef methods:
+
 - `get_copy`
 - `transmute_into_ref`
 
 Renamed `RMut`:
+
 - `get`: to `into_ref`,
 - `get_mut`: to `into_mut`,
 - `into_raw`: to `into_raw_mut`,
 - `cast_into_raw`: to `transmute_into_raw`,
 
 Added these RMut methods:
+
 - `get`: this only borrows the `RMut`
 - `get_copy`: this only borrows the `RMut`
 - `get_mut`: this only borrows the `RMut`
@@ -442,32 +454,38 @@ Added these RMut methods:
 - `as_rref`
 
 Added these functions to `MovePtr`:
+
 - `from_raw`
 - `from_rmut`
 - `transmute`
-    
+
 Changes to `GetPointerKind`:
-- Removed Deref supertrait 
+
+- Removed Deref supertrait
 - Added `PtrTarget` associated type for the same purpose as `Deref::Target`
 
 Changes to `CanTransmuteElement`:
+
 - Added `transmute_element_` method
 - Changed impls for references to return `RRef` and `RMut`
 - Changed `TransmutedPtr` bound to `AsPtr<PtrTarget = T>`
 
 Added these InterfaceTypes in `abi_stable::erased_types::interfaces`
+
 - DEIteratorCloneInterface
 - DebugDefEqInterface
 
 Added these `#[sabi_trait] pub trait`s in  in `abi_stable::erased_types::doc_examples`:
+
 - `Doer`
 - `Action`: used in examples of shared inherent functions of `#[sabi_trait]` trait objects.
 
 Moved docs for proc macros from `abi_stable::docs` to the item docs.
 
-Added `abi_stable::docs::sabi_trait_inherent` with documentation for the shared methods of `#[sabi_trait]` trait objects. This module is linked in generated code to avoid generating too much code. 
+Added `abi_stable::docs::sabi_trait_inherent` with documentation for the shared methods of `#[sabi_trait]` trait objects. This module is linked in generated code to avoid generating too much code.
 
 Added many impls to compare between std and/or abi_stable types in both directions to:
+
 - `RVec`
 - `RSlice`
 - `RSliceMut`
@@ -490,6 +508,7 @@ Made `with_move_ptr` and `in_move_ptr` panic-safe by using guard types that deal
 Fixed the potential soundness bug where pointers to serde_json::RawValue could change the order of the length and data pointers when transmuted to point to str.
 
 Fixed unsoundness in, discovered by passing `-Zmiri-track-raw-pointers` flag to miri:
+
 - `MovePtr::into_box`: which did zero-sized allocations for zero sized types.
 - `NonExhaustive::serialize`: which was creating a reference which is only valid for the `ScratchSpace` field, but the entire NonExhaustive needed to be accessed.
 - `ROnce`
@@ -507,6 +526,7 @@ Added `"rust_1_51"` feature to enable const generics support.
 Removed `"nightly_const_params"` and `"all_nightly"` features, since const generics have been stable for a while now.
 
 Might not be UB, but fixed anyway:
+
 - `RVec::as_mut_slice`
 - `<RVec as IntoIterator>::into_iter`
 
@@ -514,19 +534,15 @@ Fixed unsoundness when loading library due to transmute from `&'static AbiHeader
 
 Moved the `upgrade` method from `AbiHeader` to `AbiHeaderRef`
 
-
 Bumped dependency versions(only listing the braking ones):
+
 - `core_extensions`: 1.4
 - `libloading`: 0.7
 - `repr_offset`: 0.2
 
+## 0.9
 
-
-
-
-# 0.9
-
-# 0.9.2
+### 0.9.2
 
 Added impls of StableAbi for arrays of all sizes, conditional on the "const_params" feature.
 
@@ -537,13 +553,13 @@ but doesn't stop compiling anywhere else yet.
 
 Moved continuous integration testing to github.
 
-# 0.9.1
+### 0.9.1
 
 Fixed a memory safety bug in `RString::retain` and `RVec::retain`.
 
-# 0.9.0
+### 0.9.0
 
-Rewrote how prefix types work. now they aren't by reference, 
+Rewrote how prefix types work. now they aren't by reference,
 they use static-reference-like types generated for each prefix type
 (those types have a `_Ref` suffix by default).
 
@@ -605,12 +621,12 @@ Defined the `RMut` type to rewrite how `#[sabi_trait]` passes the method receive
 Added `sabi_as_rref` and `sabi_as_rmut` methods to `RObject` and `DynTrait` to
 get `RRef` and `RMut` to the wrapped value.
 
-
 Made `abi_stable` testable with [`miri`](https://github.com/rust-lang/miri)
 
 Bumped the minimum supported Rust version to 1.41.0.
 
 Updated these public dependencies:
+
 - core_extensions to "0.1.18"
 - libloading to "0.6.4"
 - parking_lot to "0.11.0"
@@ -666,7 +682,7 @@ Fixed exporting of `abi_stable::prefix_type::BoolArrayIter`, before this it was 
 Made `MovePtr<T>` implement `Send` and/or `Sync` when `T` does.
 
 Added `RSliceMut::as_mut_ptr` method
-    
+
 Removed the `RSliceMut::into_slice_mut` method (it was marked for deprecation)
 
 Implemented Send and Sync for the RString and RVec iterators.
@@ -675,7 +691,7 @@ Made `prefix_type::panic_on_missing_field_val` private
 
 Made `TagErrorVariant` private.
 
-# 0.8
+## 0.8
 
 ### 0.8.3
 
@@ -698,9 +714,9 @@ if they contain the previously mentioned types in their API.
 
 ### 0.8.0
 
-Added checks when loading dynamic libraries to ensure that Rust doesn't change how it represents 
+Added checks when loading dynamic libraries to ensure that Rust doesn't change how it represents
 zero-sized types in the "C" ABI.
-This means that in some rare cases,it won't be possible to link dynamic libraries across a 
+This means that in some rare cases,it won't be possible to link dynamic libraries across a
 certain Rust version because it changed how it represents zero-sized types in the "C" abi.
 
 Added `RBoxError::from_debug` for constructing an `RBoxError` from `Debug + !Display` types.
@@ -709,7 +725,7 @@ Added impls of `StableAbi` for `PhantomData` of tuples.
 
 Added the `abi_stable::marker_type::NonOwningPhantom` marker type,
 which is a more convenient way to have a `PhantomData<extern "C"fn()->PhantomData<T>>` field
-PhantomData is returned from the function because of special case support 
+PhantomData is returned from the function because of special case support
 for PhantomData of tuples (eg:`PhantomData<(Foo,Bar)>`)
 (tuples don't have a stable abi,but because this is a 1-aligned zero sized type,
 it doesn't matter).
@@ -717,7 +733,7 @@ it doesn't matter).
 Fixed potential soundness bug by replacing `PhantomData<extern "C" fn( $types )>` fields
 with `NonOwningPhantom<$types>`.
 
-# 0.7
+## 0.7
 
 ### 0.7.4
 
@@ -728,7 +744,7 @@ Made version checking for types looser,so that types are cómpatible so long as 
 Added functions to load the AbiHeader of a dynamic library,
 and to upgrade it to a LibHeader.
 
-Added `version_compatibility` crates to test that pull-requests to 
+Added `version_compatibility` crates to test that pull-requests to
 abi_stable don't change the layout of types in an incompatible way.
 
 ### 0.7.3
@@ -756,19 +772,17 @@ abi_stable::std_types::{
 Now `rstr!()` won't require a literal argument from Rust 1.39 onwards,
 it can be any `&str`.
 
-
-
 ### 0.7.2
 
 Bug fix:
 
-This fixes the version number for abi_stable that is stored in dynamic libraries to 
+This fixes the version number for abi_stable that is stored in dynamic libraries to
 always be the same as `abi_stable`.
 Before this fix the version number was 0.6 which means that you'll have to recompile dynamic libraries of previous patch versions(the 0.7.0 and 0.7.1 versions are yanked because of this).
 
 ### 0.7.0
 
-- Added `const fn` constructor functions for 
+- Added `const fn` constructor functions for
     `#[sabi_trait]` generated trait objects/DynTrait/RObject.
 
 - Added `RRef<'a,T>` type,as a workaround to allow transmuting `&T` to `&()`.
@@ -787,7 +801,7 @@ Before this fix the version number was 0.6 which means that you'll have to recom
         that is checked for equality like every other const parameter.
 
 - Added ConstGeneric,to have proper const-generics support,
-    this allows any type that implements `Eq+Debug+StableAbi+'static` to be 
+    this allows any type that implements `Eq+Debug+StableAbi+'static` to be
     used as a const-parameter.
 
 - Added macros for constructing RVec/Tuple0-4/RStr/RSlice/NulStr
@@ -795,7 +809,7 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 - Added NulStr,a nul terminated utf8 string slice.
 
 - Rewrote how type layout constants are represented to be significantly smaller.
-    Most of the optimizations are described in the 
+    Most of the optimizations are described in the
     `ffdd68fef8d445d7d91972b0d751db80df887ec4` commit
     (there were some tweaks after that commit,but it's mostly correct).
 
@@ -814,40 +828,40 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 
 - Added reborrowing support to `#[sabi_trait]` generated trait objects.
 
-- Changed TypeInfo to use `std::any::type_name` 
+- Changed TypeInfo to use `std::any::type_name`
     to print the type in error messages from 1.38 onwards.
 
 - Renamed DynTrait/RObject unerasure methods for the common case.
 
 - Split TransmuteElement into
-    the CanTransmuteElement marker trait and 
+    the CanTransmuteElement marker trait and
     the TransmuteElement extension trait
 
-- Now forbidding type macros,they will be allowed once 
+- Now forbidding type macros,they will be allowed once
     referenced lifetime can be detected inside macro invocations.
 
 - Added Debug and Display support in RObject.
 
-- Added a way to add extra checks to type layouts at load time with 
+- Added a way to add extra checks to type layouts at load time with
     `#[sabi(extra_checks="")]`,passing a type that implements ExtraChecks.
     Replaced uses of `#[sabi(tag="...")]` by DynTrait/RObject/NonExhaustive.
 
 - Made it possible to borrow from self in SerializeProxyType.
 
-# 0.6
+## 0.6
 
 ### 0.6.3
 
-- Added documentation examples to virtually every type/method in 
+- Added documentation examples to virtually every type/method in
     `abi_stable::{external_types,sabi_types,std_types}`
 
-- Added a few methods/associated functions because examples made it 
+- Added a few methods/associated functions because examples made it
     obvious that they were necessary.
 
-- Changed RBoxError_ downcast methods to downcast through a 
+- Changed RBoxError_ downcast methods to downcast through a
     `Box<dyn Error+ ... >` if it wraps one.
-    
-    This involves a tiny breaking change where downcast now requires 
+
+    This involves a tiny breaking change where downcast now requires
     `std::error::Error` to be implemented by the error being downcasted.
     This breaking change should not be a problem,
     since `RBoxError::{new,from_box,from}` requires that the type implements the `Error` trait,
@@ -861,7 +875,7 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 
 - Added the `#[derive(GetStaticEquivalent)]` derive macro.
 
-- Added `#[sabi(impl_InterfaceType())]` helper attribute to `#[derive(StableAbi)]` 
+- Added `#[sabi(impl_InterfaceType())]` helper attribute to `#[derive(StableAbi)]`
     and `#[derive(GetStaticEquivalent)]`.
 
 - Replaced most uses of `impl_InterfaceType!{}` with the helper attribute.
@@ -875,36 +889,34 @@ Before this fix the version number was 0.6 which means that you'll have to recom
     and an extra set of example crates in "examples/2_nonexhaustive/\*".
 
 - Rewrote a lot of the code generated by #[sabi_trait]:
-    
-    - It now generates a `struct Trait_TO` instead of a type alias,
+
+  - It now generates a `struct Trait_TO` instead of a type alias,
         wrapping the underlying implementation (DynTrait or RObject).
-    
-    - Transformed the constructors into associated functions of `Trait_TO`,
+
+  - Transformed the constructors into associated functions of `Trait_TO`,
         adding the `Trait_TO::from_sabi` to wrap the underlying implementation.
-    
-    - Added impls delegating the supertraits to the underlying implementation.
-    
-    - Automatically add supertraits of supertraits.
-    
-    - Fixed support for Iterator/DoubleEndedIterator,
+
+  - Added impls delegating the supertraits to the underlying implementation.
+
+  - Automatically add supertraits of supertraits.
+
+  - Fixed support for Iterator/DoubleEndedIterator,
         parsing the supertrait bound to detect the Iterator Item type.
-    
-    - Replaced Trait_Marker with `Trait_Interface<'a,'b,A,B,AssocTypeA,AssocTypeB >`.
 
-    - Added `erasability:Erasability` parameter to constructor functions,
+  - Replaced Trait_Marker with `Trait_Interface<'a,'b,A,B,AssocTypeA,AssocTypeB >`.
+
+  - Added `erasability:Erasability` parameter to constructor functions,
         to pass `TU_Unerasable` and `TU_Opaque` by value(instead of as a type parameter).
-
 
 - Added #[StableAbi] attributes:
 
-    - `#[sabi(phantom_field="name:type")]`
+  - `#[sabi(phantom_field="name:type")]`
 
-    - `#[sabi(phantom_type_param="type")]`
+  - `#[sabi(phantom_type_param="type")]`
 
-    - `#[sabi(not_stableabi())]`:to accept type parameters that only implement GetStaticEquivalent_
+  - `#[sabi(not_stableabi())]`:to accept type parameters that only implement GetStaticEquivalent_
 
-    - `#[sabi(unsafe_change_type="SomeType")]`:to change the type of the field in the type layout constant.
-
+  - `#[sabi(unsafe_change_type="SomeType")]`:to change the type of the field in the type layout constant.
 
 - Added `#[unsafe_no_layout_constant]` attribute to `#[export_root_module]`,
     to have a abi_stable dynamic library without storing the type layout of the root module.
@@ -926,15 +938,15 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 - Added GetStaticEquivalent_ to get the `'static` equivalent of a type for type checking.
 
 - Fixed runtime type checking soundness bugs:
-    
-    - where using `#[sabi(unconstrained())]` would cause the type parameter to be ignored 
+
+  - where using `#[sabi(unconstrained())]` would cause the type parameter to be ignored
         when computing the UTypeId for the type.
         Renamed the attribute to #[sabi(unsafe_unconstrained())].
 
-    - where non-StableAbi fields were treated as opaque,
+  - where non-StableAbi fields were treated as opaque,
         even though the `#[sabi(unsafe_opaque_field)]` attribute wasn't applied to them.
 
-    - where checking prefix types against the global view
+  - where checking prefix types against the global view
         didn't return an error when nested fields had errors.
 
 - Made LibHeader safely usable by reference,required making changes to make it thread safe
@@ -947,10 +959,10 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 
 - Moved abi_stability::type_layout to root module,with abi_stability::tagging inside.
 
-- Replaced the True/False in InterfaceType associated types with 
+- Replaced the True/False in InterfaceType associated types with
     `Implemented<Trait>` and `Unimplemented<Trait>`,to improve compile-time error messages.
 
-- Added `#[sabi_extern_fn]` attribute,to replace many uses of 
+- Added `#[sabi_extern_fn]` attribute,to replace many uses of
     `extern fn foo(){ extern_fn_panic_handling!{} }`
 
 - Removed suffix from RCmpOrdering variants.
@@ -960,13 +972,11 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 - Added Spans (the region of code tokens come from) to most generated code,
     to improve error messages from within macro generated code.
 
-
-
-# 0.5
+## 0.5
 
 - Added MovePtr type and OwnedPointer trait,mostly for `#[sabi_trait]`.
 
-- Implemented `#[sabi_trait]` attribute for generating ffi-safe trait objects 
+- Implemented `#[sabi_trait]` attribute for generating ffi-safe trait objects
     from a trait definition.
 
 - Implemented RObject,the default backend type of `#[sabi_trait]`.
@@ -980,16 +990,15 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 
 - Added `#[sabi_trait]` example crate,which implement a basic plugin system.
 
-- Moved some top-level abi_stable modules 
-    (ignored_wrapper,late_static_ref,return_value_equality,version) 
+- Moved some top-level abi_stable modules
+    (ignored_wrapper,late_static_ref,return_value_equality,version)
     to sabi_types.
 
-
-# 0.4
+## 0.4
 
 - Added basic module reflection,changing a few details of how layout is represented.
 
-- Created the sabi_extract tool that converts the module structure of an 
+- Created the sabi_extract tool that converts the module structure of an
     abi_stable dynamic library to json.
 
 - Streamlined how modules are exported,
@@ -1003,10 +1012,10 @@ Before this fix the version number was 0.6 which means that you'll have to recom
     as well as the `declare_root_module_statics` macro to implement it.
 
 - Changed `RootModule::raw_library_ref` to `RootModule::get_raw_library` ,
-    returning the already loaded RawLibrary instead of allowing the user 
+    returning the already loaded RawLibrary instead of allowing the user
     to initialize it themselves.
 
-- Changed how all libraries are loaded so that the abi_stable version they 
+- Changed how all libraries are loaded so that the abi_stable version they
     use can be checked,mentioning the abi_stable version in the returned error.
 
 - Renamed `Library` to `RawLibrary`.
@@ -1014,7 +1023,7 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 - Now the RawLibrary is unloaded after layout checking fails,
     leaking it if layout checking passes instead of doing so when it's loaded.
 
-- Added `#[sabi(refl(pub_getter=" function_name "))]` 
+- Added `#[sabi(refl(pub_getter=" function_name "))]`
     attribute for code generation (using the layout constant for a type),
     to determine how to access private fields(otherwise they're inaccesible).
 
@@ -1024,40 +1033,36 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 
 - Added ffi-safe wrappers for crossbeam channels.
 
-- Added support for #[repr(<IntegerType>)],for enums.
+- Added support for `#[repr(<IntegerType>)]`, for enums.
 
 - Added checking of enum discriminants(supports all integer types up to u64/i64).
 
 - Renamed LazyStaticRef to LateStaticRef,made if ffi-safe.
 
+## 0.3
 
-
-
-
-# 0.3 
-
-- Dropped support for 1.33 (no requiring 1.34) due to 
+- Dropped support for 1.33 (no requiring 1.34) due to
     an ICE caused by associated types in associated constants.
 
 - Renamed VirtualWrapper to DynTrait,moving `I:InterfaceType` to second type parameter.
 
-- Added tags,a dynamically typed data structure used 
+- Added tags,a dynamically typed data structure used
     when checking the layout of types at runtime.
 
 - DynTrait can now be constructed from non-`'static` types,
     using `DynTrait::from_borrowìng_*`.
 
 - Added conditional accessors to prefix-types,
-    allowing those fields to have any type if disabled 
+    allowing those fields to have any type if disabled
     (so long as they don't change in size/alignment)
 
 - Added these conditional traits to DynTrait:
-    - Send
-    - Sync.
-    - Iterator
-    - DoubleEndedIterator
-    - std::fmt::Write
-    - std::io::{Write,Seek,Read,BufRead}
+  - Send
+  - Sync.
+  - Iterator
+  - DoubleEndedIterator
+  - std::fmt::Write
+  - std::io::{Write,Seek,Read,BufRead}
 
 - Improved documentation of DynTrait,including multiple examples,
     and how to make a pointer compatible with it.
@@ -1077,14 +1082,14 @@ Before this fix the version number was 0.6 which means that you'll have to recom
 
 - Added RHashMap,with an API very close to the standard HashMap.
 
-# 0.2
+## 0.2
 
 - Added SharedStableAbi trait to implement prefix-types (vtables and modules).
 
-- Added a "StaticEquivalent:'static" associated type to StableAbi/SharedStableAbi 
+- Added a "StaticEquivalent:'static" associated type to StableAbi/SharedStableAbi
     to construct a type-id from any type,for checking their layout only once
 
-- Added impl_InterfaceType macro for 
+- Added impl_InterfaceType macro for
     implementing InterfaceType with default associated types.
 
 - Tightened safety around phantom type parameters,

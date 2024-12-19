@@ -163,7 +163,7 @@ impl Matcher {
     fn matches(&self, text: &str) -> bool {
         match self {
             Matcher::Regex(regex) => regex.is_match(text),
-            Matcher::Str(find) => text.contains(&*find),
+            Matcher::Str(find) => text.contains(find),
             Matcher::Not(searcher) => !searcher.matches(text),
         }
     }

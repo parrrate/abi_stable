@@ -147,7 +147,7 @@ pub(crate) enum OnMissingField<'a> {
     Default_,
 }
 
-impl<'a> Default for OnMissingField<'a> {
+impl Default for OnMissingField<'_> {
     fn default() -> Self {
         OnMissingField::ReturnOption
     }
@@ -229,7 +229,7 @@ pub(crate) fn prefix_type_tokenizer<'a>(
     if matches!(config.kind, StabilityKind::Prefix { .. }) {
         if ds
             .variants
-            .get(0)
+            .first()
             .map_or(false, |struct_| struct_.fields.len() > 64)
         {
             return_spanned_err!(
@@ -254,7 +254,7 @@ pub(crate) fn prefix_type_tokenizer<'a>(
             }
         }
 
-        let struct_ = match ds.variants.get(0) {
+        let struct_ = match ds.variants.first() {
             Some(x) => x,
             None => return Ok(default_prefixtype_tokens()),
         };

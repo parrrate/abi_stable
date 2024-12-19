@@ -86,11 +86,8 @@ fn get_static_equiv_tokenizer<'a>(
         let const_param_name = generics.const_params().map(|c| &c.ident);
         let const_param_type = generics.const_params().map(|c| &c.ty);
 
-        let const_ident =
-            parse_str_as_ident(&format!("_impl_get_static_equivalent_constant_{}", name,));
-
         quote!(
-            const #const_ident:()={
+            const _:()={
                 use ::abi_stable::derive_macro_reexports::renamed::{
                     __GetStaticEquivalent_,
                     __GetStaticEquivalent,

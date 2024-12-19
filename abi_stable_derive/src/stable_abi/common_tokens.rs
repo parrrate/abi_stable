@@ -60,20 +60,20 @@ macro_rules! declare_common_tokens {
     }
 }
 
-impl<'a> Eq for CommonTokens<'a> {}
-impl<'a> PartialEq for CommonTokens<'a> {
+impl Eq for CommonTokens<'_> {}
+impl PartialEq for CommonTokens<'_> {
     fn eq(&self, _other: &Self) -> bool {
         true
     }
 }
 
-impl<'a> PartialOrd for CommonTokens<'a> {
-    fn partial_cmp(&self, _other: &Self) -> Option<Ordering> {
-        Some(Ordering::Equal)
+impl PartialOrd for CommonTokens<'_> {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
     }
 }
 
-impl<'a> Ord for CommonTokens<'a> {
+impl Ord for CommonTokens<'_> {
     fn cmp(&self, _other: &Self) -> Ordering {
         Ordering::Equal
     }

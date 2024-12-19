@@ -377,13 +377,13 @@ impl<'a> SharedVars<'a> {
 }
 
 #[must_use]
-fn make_get_type_layout_tokenizer<'a, T: 'a>(
+fn make_get_type_layout_tokenizer<'a, T>(
     ty: T,
     field_transparency: LayoutConstructor,
     ct: &'a CommonTokens<'a>,
 ) -> impl ToTokens + 'a
 where
-    T: ToTokens,
+    T: 'a + ToTokens,
 {
     ToTokenFnMut::new(move |ts| {
         ty.to_tokens(ts);

@@ -5,7 +5,7 @@ authors = ["rodrimati1992 <rodrimatt1985@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-abi_stable={path="../../../abi_stable"}
+abi_stable = { path = "../../../abi_stable" }
 
 [features]
 

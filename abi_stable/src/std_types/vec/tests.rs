@@ -123,7 +123,7 @@ fn insert_remove() {
         list.insert(1, b'b');
         list.insert(1, b'c');
         list.insert(0, b'd');
-        assert_eq!(&*list, &[b'd', b'a', b'c', b'b']);
+        assert_eq!(&*list, b"dacb");
     }
 }
 

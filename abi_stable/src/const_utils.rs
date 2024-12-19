@@ -1,5 +1,7 @@
 //! Utilities for const contexts.
 
+use std::marker::PhantomData;
+
 use crate::std_types::RStr;
 
 pub use abi_stable_shared::const_utils::low_bit_mask_u64;
@@ -57,7 +59,7 @@ where
     GetEmptySlice::<'a, T>::EMPTY
 }
 
-struct GetEmptySlice<'a, T>(&'a T);
+struct GetEmptySlice<'a, T>(PhantomData<&'a T>);
 
 impl<'a, T> GetEmptySlice<'a, T>
 where

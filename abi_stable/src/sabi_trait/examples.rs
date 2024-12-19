@@ -1,9 +1,6 @@
-use std::{fmt::Debug, hash::Hash, sync::Arc};
-
-use core_extensions::SelfOps;
+use std::{fmt::Debug, hash::Hash};
 
 use crate::{
-    sabi_trait::prelude::*,
     std_types::{RArc, RBox, ROption, RStr, RString, Tuple1},
     *,
 };
@@ -333,11 +330,16 @@ pub trait Dictionary {
 
 //////////////////////////////////////
 
-#[cfg(all(test))]
+#[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
+    use core_extensions::SelfOps;
+
     use super::*;
 
     use crate::{
+        sabi_trait::prelude::*,
         sabi_types::{RMut, RRef},
         traits::IntoReprC,
     };

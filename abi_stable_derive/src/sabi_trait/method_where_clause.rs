@@ -65,7 +65,7 @@ pub(crate) struct MethodWhereClauseTokenizer<'a> {
     ctokens: &'a CommonTokens,
 }
 
-impl<'a> ToTokens for MethodWhereClauseTokenizer<'a> {
+impl ToTokens for MethodWhereClauseTokenizer<'_> {
     fn to_tokens(&self, ts: &mut TokenStream2) {
         let where_clause = self.where_clause;
         let ctokens = self.ctokens;

@@ -320,7 +320,7 @@ pub enum FieldIdent<'a> {
     Named(&'a Ident),
 }
 
-impl<'a> Display for FieldIdent<'a> {
+impl Display for FieldIdent<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             FieldIdent::Index(x, ..) => Display::fmt(x, f),
@@ -329,7 +329,7 @@ impl<'a> Display for FieldIdent<'a> {
     }
 }
 
-impl<'a> ToTokens for FieldIdent<'a> {
+impl ToTokens for FieldIdent<'_> {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         match *self {
             FieldIdent::Index(ind, ..) => syn::Index::from(ind).to_tokens(tokens),
@@ -338,7 +338,7 @@ impl<'a> ToTokens for FieldIdent<'a> {
     }
 }
 
-impl<'a> FieldIdent<'a> {
+impl FieldIdent<'_> {
     fn new_index(index: usize, span: Span) -> Self {
         FieldIdent::Index(index, Ident::new(&format!("field_{}", index), span))
     }

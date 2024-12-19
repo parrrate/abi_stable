@@ -39,7 +39,7 @@ pub struct MethodTokenizer<'a> {
     which_item: WhichItem,
 }
 
-impl<'a> ToTokens for MethodsTokenizer<'a> {
+impl ToTokens for MethodsTokenizer<'_> {
     fn to_tokens(&self, ts: &mut TokenStream2) {
         for method in &self.trait_def.methods {
             MethodTokenizer {
@@ -52,7 +52,7 @@ impl<'a> ToTokens for MethodsTokenizer<'a> {
     }
 }
 
-impl<'a> ToTokens for MethodTokenizer<'a> {
+impl ToTokens for MethodTokenizer<'_> {
     fn to_tokens(&self, ts: &mut TokenStream2) {
         let which_item = self.which_item;
         let method = self.method;

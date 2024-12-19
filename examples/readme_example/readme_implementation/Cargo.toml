@@ -6,13 +6,11 @@ edition = "2021"
 
 [lib]
 name = "example_library"
-crate-type = ["cdylib",'rlib']
+crate-type = ["cdylib", 'rlib']
 
 [dependencies]
-abi_stable={path="../../../abi_stable"}
+abi_stable = { path = "../../../abi_stable" }
 
 [dependencies.readme_interface]
 path = "../readme_interface"
 features = ["impls"]
-
-

@@ -8,4 +8,4 @@ edition = "2021"
 
 [lib]
 name = "non_abi_stable_lib"
-crate-type = ["cdylib",'rlib']
+crate-type = ["cdylib", 'rlib']

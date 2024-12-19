@@ -40,11 +40,11 @@ impl CompTLField {
         )
     }
 
-    pub(crate) fn from_expanded_std_field<'a, I>(
+    pub(crate) fn from_expanded_std_field<I>(
         name: &syn::Ident,
         lifetime_indices: I,
         layout: TypeLayoutIndex,
-        shared_vars: &mut SharedVars<'a>,
+        shared_vars: &mut SharedVars<'_>,
     ) -> Self
     where
         I: IntoIterator<Item = LifetimeIndex>,

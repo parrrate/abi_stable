@@ -16,7 +16,7 @@ use std::cmp::{Eq, Ordering, PartialEq, PartialOrd};
 ///
 /// ```
 ///
-#[allow(clippy::derive_hash_xor_eq)]
+#[allow(clippy::derived_hash_with_manual_eq)]
 #[derive(Debug, Copy, Clone, Hash)]
 #[repr(u8)]
 #[derive(StableAbi)]

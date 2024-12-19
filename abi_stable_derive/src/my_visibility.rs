@@ -90,12 +90,12 @@ impl<'a> VisibilityKind<'a> {
     }
 }
 
-impl<'a> ToTokens for VisibilityKind<'a> {
+impl ToTokens for VisibilityKind<'_> {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         self.submodule_level(0).to_tokens(tokens)
     }
 }
-impl<'a> ToTokens for RelativeVis<'a> {
+impl ToTokens for RelativeVis<'_> {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         if self.visibility_kind == VisibilityKind::Private && self.nesting == 0 {
             return;
@@ -155,7 +155,7 @@ enum VKDiscr {
     Public,
 }
 
-impl<'a> VisibilityKind<'a> {
+impl VisibilityKind<'_> {
     fn to_discriminant(self) -> VKDiscr {
         match self {
             VisibilityKind::Private { .. } => VKDiscr::Private,
@@ -167,7 +167,7 @@ impl<'a> VisibilityKind<'a> {
     }
 }
 
-impl<'a> PartialOrd for VisibilityKind<'a> {
+impl PartialOrd for VisibilityKind<'_> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         use self::VisibilityKind as VK;
 
@@ -214,7 +214,7 @@ mod tests {
                 $ident:ident=$string:expr
             ) => {
                 let $ident: Visibility = syn::parse_str($string).expect($string);
-                let $ident = VisibilityKind::new(&$ident).kind;
+                let $ident = VisibilityKind::new(&$ident);
             };
         }
 

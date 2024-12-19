@@ -83,7 +83,7 @@ impl<'a> GenericParams<'a> {
     }
 }
 
-impl<'a> ToTokens for GenericParams<'a> {
+impl ToTokens for GenericParams<'_> {
     fn to_tokens(&self, ts: &mut TokenStream2) {
         let lifetimes = &self
             .generics

@@ -134,7 +134,7 @@ impl<'a, AL> GenParamsIn<'a, AL> {
     }
 }
 
-impl<'a, AL> ToTokens for GenParamsIn<'a, AL>
+impl<AL> ToTokens for GenParamsIn<'_, AL>
 where
     AL: ToTokens,
 {

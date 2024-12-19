@@ -5,13 +5,13 @@ authors = ["rodrimati1992 <rodrimatt1985@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-abi_stable={version="0.11"}
+abi_stable = { version = "0.11" }
 
 [dependencies.version_compatibility_interface]
-version="0.1"
-path="../interface/"
-features=["old"]
+version = "0.1"
+path = "../interface/"
+features = ["old"]
 
 [lib]
 name = "version_compatibility_impl"
-crate-type = ["cdylib",'rlib']
+crate-type = ["cdylib", 'rlib']

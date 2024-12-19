@@ -16,7 +16,6 @@ pub fn the_macro(mut impl_: ItemImpl) -> Result<TokenStream2, syn::Error> {
     let mut const_name = (&impl_.self_ty).into_token_stream().to_string();
     const_name.retain(|c| c.is_alphanumeric());
     const_name.insert_str(0, "_impl_InterfaceType");
-    let const_name = parse_str_as_ident(&const_name);
 
     let interface_path_s = impl_.trait_.as_ref().map(|x| &x.1.segments);
     let is_interface_type = interface_path_s
@@ -60,8 +59,9 @@ pub fn the_macro(mut impl_: ItemImpl) -> Result<TokenStream2, syn::Error> {
             let name = &assoc_ty.ident;
             let span = name.span();
 
-            assoc_ty.ty =
-                syn::Type::Verbatim(quote_spanned!(span=> ImplFrom<#old_ty, trait_marker::#name> ));
+            assoc_ty.ty = syn::Type::Verbatim(
+                quote_spanned!(span=> ImplFrom<#old_ty, trait_marker::#name> ),
+            );
         }
     }
 
@@ -75,8 +75,12 @@ pub fn the_macro(mut impl_: ItemImpl) -> Result<TokenStream2, syn::Error> {
         let span = key.span();
 
         let ty = match default_ {
-            DefaultVal::Unimplemented => quote_spanned!(span=> Unimplemented<trait_marker::#key> ),
-            DefaultVal::Implemented => quote_spanned!(span=> Implemented<trait_marker::#key> ),
+            DefaultVal::Unimplemented => {
+                quote_spanned!(span=> Unimplemented<trait_marker::#key> )
+            }
+            DefaultVal::Implemented => {
+                quote_spanned!(span=> Implemented<trait_marker::#key> )
+            }
             DefaultVal::Hidden => {
                 attrs.extend(parse_syn_attributes("#[doc(hidden)]").expect("BUG"));
                 quote_spanned!(span=> () )
@@ -99,7 +103,7 @@ pub fn the_macro(mut impl_: ItemImpl) -> Result<TokenStream2, syn::Error> {
     }
 
     quote!(
-        const #const_name:()={
+        const _:()={
             use ::abi_stable::derive_macro_reexports::{
                 Implemented,
                 Unimplemented,

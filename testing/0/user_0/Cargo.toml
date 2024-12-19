@@ -5,10 +5,12 @@ authors = ["rodrimati1992 <rodrimatt1985@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-abi_stable={version="*",path="../../../abi_stable"}
+abi_stable = { version = "*", path = "../../../abi_stable" }
 structopt = "0.3.26"
-core_extensions={ version = "1.5.2", default_features = false, features = ["std"] }
+core_extensions = { version = "1.5.2", default-features = false, features = [
+    "std",
+] }
 
 [dependencies.testing_interface_0]
-version="0.1"
-path="../interface_0"
+version = "0.1"
+path = "../interface_0"
