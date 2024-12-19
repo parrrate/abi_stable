@@ -40,7 +40,7 @@ pub use self::errors::{
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/// What is AbiChecker::check_fields being called with.
+/// What AbiChecker::check_fields is being called with.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Ord, PartialOrd, Hash)]
 #[repr(C)]
 enum FieldContext {
@@ -76,7 +76,7 @@ pub enum CheckingState {
 
 //////
 
-/// Represents an error where a value was expected,but another value was found.
+/// Represents an error where a value was expected, but another value was found.
 #[derive(Debug, PartialEq, Eq, Clone)]
 #[repr(C)]
 pub struct ExpectedFound<T> {

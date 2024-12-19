@@ -116,7 +116,7 @@ impl fmt::Display for AbiInstabilityError {
 
                     (
                         "Attempted to check the layout of a type while checking the layout \
-                         of one of it's const parameters/extra_checks\
+                         of one of its const parameters/extra_checks\
                          (not necessarily a direct one).",
                         None,
                     )

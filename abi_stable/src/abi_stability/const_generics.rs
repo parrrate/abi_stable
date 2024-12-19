@@ -83,7 +83,7 @@ impl Eq for ConstGeneric {}
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/// The vtable of `ConstGeneric`
+/// The vtable of `ConstGeneric`.
 #[repr(C)]
 #[derive(StableAbi)]
 #[sabi(kind(Prefix))]
@@ -115,7 +115,7 @@ where
         })
     };
 
-    /// Constructs a `ConstGenericVTableFor`
+    /// Constructs a `ConstGenericVTableFor`.
     const VTABLE: ConstGenericVTable_Ref =
         ConstGenericVTable_Ref(Self::_VTABLE_STATIC.static_as_prefix());
 }

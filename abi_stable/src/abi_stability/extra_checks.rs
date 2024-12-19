@@ -203,6 +203,7 @@
 //!         }
 //!     }
 //! }
+//!
 //! unsafe impl ExtraChecks for ConstChecker {
 //!     fn type_layout(&self) -> &'static TypeLayout {
 //!         <Self as StableAbi>::LAYOUT
