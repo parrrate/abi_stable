@@ -4,10 +4,6 @@ This is the changelog, summarising changes in each version
 
 Minor changes may be ommited, as well as improvements to documentation.
 
-## Unreleased
-
-Bumped MSRV to 1.63 (`libc` crate requires it).
-
 ## 0.11
 
 ### 0.11.3
