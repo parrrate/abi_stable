@@ -190,7 +190,7 @@ use abi_stable::{
 
 use serde::{Deserialize, Serialize};
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq, Deserialize, Serialize)]
 #[sabi(kind(WithNonExhaustive(
     // Determines the maximum size of this enum in semver compatible versions.
@@ -364,7 +364,7 @@ use std::{
     fmt::{self, Debug, Display},
 };
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq)]
 #[sabi(kind(WithNonExhaustive(
     size = [usize;3],
@@ -457,7 +457,7 @@ use abi_stable::{
     StableAbi,
 };
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq)]
 #[sabi(kind(WithNonExhaustive(
     // Determines the maximum size of this enum in semver compatible versions.
@@ -577,7 +577,7 @@ pub struct ObjectId(pub usize);
 #[derive(StableAbi, Debug, Clone, Copy, PartialEq)]
 pub struct GroupId(pub usize);
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq)]
 #[sabi(kind(WithNonExhaustive(
     size = [usize;8],
@@ -753,7 +753,7 @@ and the errors produced when the enum is too large or is misaligned for its defa
 ```compile_fail
 use abi_stable::StableAbi;
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     // Determines the maximum size of this enum in semver compatible versions.
@@ -775,7 +775,7 @@ pub enum Concrete {
 }
 
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     // Determines the maximum size of this enum in semver compatible versions.

@@ -6,9 +6,7 @@ use crate::sabi_types::bitarray::{bool_to_enum, enum_to_bool, BitArray64, Boolea
 #[derive(StableAbi, Debug, Copy, Clone, PartialEq, Eq)]
 #[repr(u8)]
 pub enum IsAccessible {
-    ///
     No = 0,
-    ///
     Yes = 1,
 }
 
@@ -39,9 +37,7 @@ pub type FieldAccessibility = BitArray64<IsAccessible>;
 #[derive(StableAbi, Debug, Copy, Clone, PartialEq, Eq)]
 #[repr(u8)]
 pub enum IsConditional {
-    ///
     No = 0,
-    ///
     Yes = 1,
 }
 

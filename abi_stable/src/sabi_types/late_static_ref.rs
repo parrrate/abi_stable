@@ -108,6 +108,12 @@ impl<T> LateStaticRef<T> {
     }
 }
 
+impl<T> Default for LateStaticRef<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<T> LateStaticRef<&'static T> {
     /// Constructs `LateStaticRef`, initialized with `value`.
     ///

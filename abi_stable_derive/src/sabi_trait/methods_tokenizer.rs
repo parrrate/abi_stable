@@ -286,6 +286,7 @@ impl ToTokens for MethodTokenizer<'_> {
                     SelfParam::ByVal => {
                         quote_spanned!(method_span=>
                             self.obj.sabi_with_value(
+                                #[allow(clippy::unnecessary_cast)]
                                 move|_self|__method(
                                     __sabi_re::MovePtr::into_raw(_self) as *mut (),
                                     #(#param_names_c,)*

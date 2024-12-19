@@ -193,13 +193,13 @@ impl<'a> RawValueRef<'a> {
     }
 }
 
-impl<'a> Debug for RawValueRef<'a> {
+impl Debug for RawValueRef<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         Debug::fmt(&self.ref_, f)
     }
 }
 
-impl<'a> Display for RawValueRef<'a> {
+impl Display for RawValueRef<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         Display::fmt(&self.ref_, f)
     }
@@ -220,7 +220,7 @@ impl<'a> TryFrom<&'a str> for RawValueRef<'a> {
     }
 }
 
-impl<'a> Serialize for RawValueRef<'a> {
+impl Serialize for RawValueRef<'_> {
     fn serialize<Z>(&self, serializer: Z) -> Result<Z::Ok, Z::Error>
     where
         Z: Serializer,

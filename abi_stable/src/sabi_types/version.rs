@@ -96,11 +96,8 @@ pub struct VersionStrings {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 #[repr(C)]
 pub struct VersionNumber {
-    ///
     pub major: u32,
-    ///
     pub minor: u32,
-    ///
     pub patch: u32,
 }
 
@@ -200,7 +197,7 @@ impl VersionNumber {
             patch: iter
                 .next()
                 .unwrap_or("")
-                .split_while(|x| ('0'..='9').contains(&x))
+                .split_while(|x: char| x.is_ascii_digit())
                 .find(|x| x.key)
                 .map_or("0", |x| x.str)
                 .parse()

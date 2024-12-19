@@ -131,7 +131,7 @@ where
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Either the constructor for a value or the value itself
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Copy, Clone)]
 //#[sabi(debug_print)]
 pub enum ConstructorOrValue<T> {

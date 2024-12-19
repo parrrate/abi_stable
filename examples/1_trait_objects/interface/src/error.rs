@@ -12,7 +12,7 @@ use std::{
 
 use core_extensions::strings::StringExt;
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, StableAbi)]
 pub enum Error {
     /// An error produced by `serde_json::to_string`.

@@ -76,7 +76,7 @@ mod tests;
 ///     StableAbi,
 /// };
 ///
-/// #[repr(u8)]
+/// #[repr(C, u8)]
 /// #[derive(StableAbi, Debug, Clone, PartialEq)]
 /// #[sabi(kind(WithNonExhaustive(
 ///     size = [usize;8],
@@ -115,7 +115,7 @@ mod tests;
 ///     StableAbi,
 /// };
 ///
-/// #[repr(u8)]
+/// #[repr(C, u8)]
 /// #[derive(StableAbi, Debug, Clone, PartialEq)]
 /// #[sabi(kind(WithNonExhaustive(
 ///     size = [usize;8],
@@ -168,7 +168,7 @@ mod tests;
 /// assert_eq!(cc, Foo::C {name: RString::from("hello")});
 ///
 ///
-/// #[repr(u8)]
+/// #[repr(C, u8)]
 /// #[derive(StableAbi, Debug, PartialEq, Eq)]
 /// #[sabi(kind(WithNonExhaustive(
 ///     size = 64,
@@ -767,14 +767,14 @@ where
     impl_neso! { impl[E,S,I] }
 }
 
-impl<'a, E, S, I> NonExhaustiveSharedOps for &'a NonExhaustive<E, S, I>
+impl<E, S, I> NonExhaustiveSharedOps for &'_ NonExhaustive<E, S, I>
 where
     E: GetEnumInfo,
 {
     impl_neso! { impl[E,S,I] }
 }
 
-impl<'a, E, S, I> NonExhaustiveSharedOps for &'a mut NonExhaustive<E, S, I>
+impl<E, S, I> NonExhaustiveSharedOps for &'_ mut NonExhaustive<E, S, I>
 where
     E: GetEnumInfo,
 {

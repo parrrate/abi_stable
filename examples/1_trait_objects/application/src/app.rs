@@ -37,7 +37,7 @@ impl TheApplication {
         let list = self.state.expand_which_plugin(which_plugin)?;
         for index in list {
             let state = Application_TO::from_ptr(&mut self.state, TD_Opaque);
-            let plugin = &mut self.plugins[index as usize];
+            let plugin = &mut self.plugins[index];
             println!("command:\n{}", command.left_pad(4));
             let resp = plugin.json_command(command, state).into_result()?;
             self.state.register_command_run();
@@ -57,7 +57,7 @@ impl TheApplication {
             self.run_command_(&dc.from, dc.plugin_index, &dc.command)?;
         }
 
-        let mut responses = mem::replace(&mut self.state.responses, VecDeque::new());
+        let mut responses = std::mem::take(&mut self.state.responses);
         for DelayedResponse { to, from, response } in responses.drain(..) {
             let response = PluginResponse::owned_response(from, response);
             let state = Application_TO::from_ptr(&mut self.state, TD_Opaque);

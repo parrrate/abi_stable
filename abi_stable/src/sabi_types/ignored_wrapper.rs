@@ -60,7 +60,6 @@ use std::{
 #[repr(transparent)]
 #[derive(Default, Copy, Clone, StableAbi)]
 pub struct CmpIgnored<T> {
-    ///
     pub value: T,
 }
 
@@ -133,8 +132,8 @@ impl<T> Ord for CmpIgnored<T> {
 }
 
 impl<T> PartialOrd for CmpIgnored<T> {
-    fn partial_cmp(&self, _other: &Self) -> Option<Ordering> {
-        Some(Ordering::Equal)
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
     }
 }
 

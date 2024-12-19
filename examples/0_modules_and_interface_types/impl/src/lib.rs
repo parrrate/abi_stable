@@ -10,12 +10,12 @@ use std::{
 };
 
 use example_0_interface::{
-    CowStrIter, DeserializerMod, DeserializerMod_Ref, RemoveWords, TOCommand, TOCommandBox,
-    TOReturnValue, TOReturnValueArc, TOState, TOStateBox, TextOpsMod, TextOpsMod_Ref,
+    DeserializerMod, DeserializerMod_Ref, RemoveWords, TOCommand, TOCommandBox, TOReturnValue,
+    TOReturnValueArc, TOState, TOStateBox, TextOpsMod, TextOpsMod_Ref,
 };
 
 use abi_stable::{
-    erased_types::{SerializeType, TypeInfo},
+    erased_types::SerializeType,
     export_root_module,
     external_types::RawValueBox,
     prefix_type::{PrefixTypeTrait, WithMetadata},
@@ -105,7 +105,7 @@ impl<'a> Iterator for Command<'a> {
 }
 
 /// Defines how the type is serialized in DynTrait<_>.
-impl<'borr, 'a> SerializeType<'a> for Command<'borr> {
+impl<'a> SerializeType<'a> for Command<'_> {
     type Interface = TOCommand;
     fn serialize_impl(&'a self) -> Result<RawValueBox, RBoxError> {
         serialize_json(self)
@@ -148,7 +148,7 @@ fn serialize_json<T>(value: &T) -> Result<RawValueBox, RBoxError>
 where
     T: serde::Serialize,
 {
-    match serde_json::to_string::<T>(&value) {
+    match serde_json::to_string::<T>(value) {
         Ok(v) => unsafe { Ok(RawValueBox::from_rstring_unchecked(v.into_c())) },
         Err(e) => Err(RBoxError::new(e)),
     }
@@ -202,7 +202,7 @@ pub fn new() -> TOStateBox {
 
 /// Reverses order of the lines in `text`.
 #[sabi_extern_fn]
-pub fn reverse_lines<'a>(this: &mut TOStateBox, text: RStr<'a>) -> RString {
+pub fn reverse_lines(this: &mut TOStateBox, text: RStr<'_>) -> RString {
     let this = this.downcast_as_mut::<TextOperationState>().unwrap();
 
     this.processed_bytes += text.len() as u64;

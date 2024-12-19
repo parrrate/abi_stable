@@ -100,7 +100,7 @@ pub struct MTLIterator<'a> {
     index: usize,
 }
 
-impl<'a> Iterator for MTLIterator<'a> {
+impl Iterator for MTLIterator<'_> {
     type Item = extern "C" fn() -> &'static TypeLayout;
 
     fn next(&mut self) -> Option<extern "C" fn() -> &'static TypeLayout> {
@@ -123,4 +123,4 @@ impl<'a> Iterator for MTLIterator<'a> {
     }
 }
 
-impl<'a> ExactSizeIterator for MTLIterator<'a> {}
+impl ExactSizeIterator for MTLIterator<'_> {}

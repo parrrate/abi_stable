@@ -16,7 +16,7 @@ By default these are the supertraits that `#[sabi_trait]` traits can have:
 - `Display`
 
 - `std::error::Error`: Written as `Error`: The `Error` methods aren't delegated to,
-it uses the default implementation,
+    it uses the default implementation,
 
 - `Clone`
 
@@ -100,7 +100,7 @@ These are the items reexported from the module:
 - [`Trait_TO`](#trait_to): The trait object for the trait.
 
 - [`Trait_CTO`](#trait_cto): 
-A type alias for the trait object which is constructible in constants.
+    A type alias for the trait object which is constructible in constants.
 
 
 ### `Trait_TO` 
@@ -130,9 +130,9 @@ Trait_TO has these generic parameters(in order):
 - `'trait_lifetime_n`: The lifetime parameters of the trait, if any.
 
 - `'lt`: 
-This is the lifetime of the type that the trait object was constructed with.
-If the trait requires `'static`(in the list of supertraits),
-then it doesn't have this lifetime parameter.
+    This is the lifetime of the type that the trait object was constructed with.
+    If the trait requires `'static`(in the list of supertraits),
+    then it doesn't have this lifetime parameter.
 
 - `Pointer`: 
     An pointer whose referent has been erased,
@@ -174,8 +174,8 @@ Trait_CTO has these generic parameters(in order):
 - `'trait_lifetime_n`: The lifetime parameters of the trait, if any.
 
 - `'lt`: this is the lifetime of the type that the trait object was construct with.
-If the trait requires `'static`(in the list of supertraits),
-then it doesn't have this lifetime parameter.
+    If the trait requires `'static`(in the list of supertraits),
+    then it doesn't have this lifetime parameter.
 
 - `'_ref`: this is the lifetime of the reference that this was constructed with.
 
@@ -198,7 +198,7 @@ These are the differences:
 - If there is a by-value method, a `Self: Sized` constraint will be added automatically.
 
 - Lifetime supertraits are stripped, because they disallow the trait object to be 
-constructed with a reference of a smaller lifetime.
+    constructed with a reference of a smaller lifetime.
 
 # VTable attributes
 
@@ -269,15 +269,15 @@ Answer: There are 3 possible reasons
 - 1: Because the trait has a `'static` supertrait bound.
 
 - 2: Because the trait has one of the comparison traits
-(`Eq`/`PartialEq`/`Ord`/`PartialOrd`)
-as supertraits.
-This requires the type to be `'static` because comparing trait objects requires 
-constructing a `std::any::TypeId`, which itself requires `'static` to be constructed.
+    (`Eq`/`PartialEq`/`Ord`/`PartialOrd`)
+    as supertraits.
+    This requires the type to be `'static` because comparing trait objects requires 
+    constructing a `std::any::TypeId`, which itself requires `'static` to be constructed.
 
 - 3: Because you passed `TD_CanDowncast` to the constructor function,
-which requires constructing a `std::any::TypeId`
-(to unerase the trait object back into the value),
-which itself requires `'static` to be constructed.
+    which requires constructing a `std::any::TypeId`
+    (to unerase the trait object back into the value),
+    which itself requires `'static` to be constructed.
 
 # Examples
 

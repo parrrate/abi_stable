@@ -116,9 +116,7 @@ impl<'a, T: Clone + 'a> RCowCompatibleRef<'a> for T {
 #[repr(C)]
 #[derive(StableAbi)]
 pub enum RCow<B, O> {
-    ///
     Borrowed(B),
-    ///
     Owned(O),
 }
 
@@ -613,7 +611,7 @@ impl<'a> From<RStr<'a>> for RCowStr<'a> {
     }
 }
 
-impl<'a> From<String> for RCowStr<'a> {
+impl From<String> for RCowStr<'_> {
     #[inline]
     fn from(this: String) -> Self {
         RCow::Owned(this.into())
@@ -627,7 +625,7 @@ impl<'a> From<&'a String> for RCowStr<'a> {
     }
 }
 
-impl<'a> From<RString> for RCowStr<'a> {
+impl From<RString> for RCowStr<'_> {
     #[inline]
     fn from(this: RString) -> Self {
         RCow::Owned(this)
@@ -726,7 +724,7 @@ where
     }
 }
 
-impl<'a, T> From<Vec<T>> for RCowSlice<'a, T>
+impl<T> From<Vec<T>> for RCowSlice<'_, T>
 where
     T: Clone,
 {
@@ -736,7 +734,7 @@ where
     }
 }
 
-impl<'a, T> From<RVec<T>> for RCowSlice<'a, T>
+impl<T> From<RVec<T>> for RCowSlice<'_, T>
 where
     T: Clone,
 {
@@ -865,7 +863,7 @@ impl<'de, 'a> Deserialize<'de> for RCowStr<'a> {
     }
 }
 
-impl<'de, 'a, T> Deserialize<'de> for RCowVal<'a, T>
+impl<'de, T> Deserialize<'de> for RCowVal<'_, T>
 where
     T: Clone + Deserialize<'de>,
 {

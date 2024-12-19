@@ -192,7 +192,7 @@ impl_valid_discriminant! {u8,i8,u16,i16,u32,i32,u64,i64,usize,isize}
 /// assert_eq!(serde_json::to_string(&ne).unwrap(), r#"{"C":{"name":"world"}}"#);
 ///
 ///
-/// #[repr(u8)]
+/// #[repr(C, u8)]
 /// #[derive(StableAbi, Debug, PartialEq, Eq, serde::Serialize)]
 /// #[sabi(kind(WithNonExhaustive(
 ///     size = 64,

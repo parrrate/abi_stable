@@ -382,6 +382,7 @@ accessible through [`{prefix_name}`](struct@{prefix_name}), with `.0.prefix()`.
                 #doc_hidden_attr
                 #prefix_ref_docs
                 #[repr(transparent)]
+                #[allow(non_camel_case_types)]
                 #vis struct #prefix_ref #generics (
                     #vis ::abi_stable::pmr::PrefixRef<
                         #prefix_fields_struct #ty_generics,
@@ -395,6 +396,7 @@ accessible through [`{prefix_name}`](struct@{prefix_name}), with `.0.prefix()`.
                 // A field being in the prefix doesn't mean that it's
                 // unconditionally accessible, it just means that it won't cause a SEGFAULT.
                 #[repr(C #alignemnt)]
+                #[allow(non_camel_case_types)]
                 #vis struct #prefix_fields_struct #generics
                 #where_clause
                 {
@@ -586,6 +588,7 @@ accessible through [`{prefix_name}`](struct@{prefix_name}), with `.0.prefix()`.
                             let #val_var=if (1u64<<#field_i & Self::__SABI_PTT_FAM & acc_bits)==0 {
                                 #else_
                             }else{
+                                #[allow(clippy::unnecessary_cast)]
                                 unsafe{
                                     *((self.0.to_raw_ptr() as *const u8)
                                         .offset(Self::#field_offset as isize)

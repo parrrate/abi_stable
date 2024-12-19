@@ -1,7 +1,5 @@
 use abi_stable::{std_types::RCow, DynTrait};
 
-use example_0_interface::CowStrIter;
-
 use super::*;
 
 /// This tests that a type coming from a dynamic library

@@ -148,7 +148,6 @@ pub mod alignment {
 
     /// Aligns its contents to an address to an address at
     /// a multiple of the size of a pointer.
-    #[repr(C)]
     #[derive(Debug, PartialEq, Eq, Copy, Clone)]
     #[cfg_attr(target_pointer_width = "64", repr(C, align(8)))]
     #[cfg_attr(target_pointer_width = "32", repr(C, align(4)))]

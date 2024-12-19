@@ -11,8 +11,8 @@ use std::marker::PhantomData;
 /// The `StaticEquivalent` associated type must be either of:
 /// - the same type as `Self`, ignoring lifetime arguments.
 /// - a type declared specifically to be the `StaticEquivalent`
-/// associated type of `Self`(and no other type),
-/// with the same type and const arguments as `Self`.
+///     associated type of `Self`(and no other type),
+///     with the same type and const arguments as `Self`.
 ///
 /// In either case, non-`'static` type parameters can be replaced with their
 /// `GetStaticEquivalent_::StaticEquivalent` associated type.

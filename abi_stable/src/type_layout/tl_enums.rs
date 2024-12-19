@@ -177,7 +177,7 @@ macro_rules! declare_tl_discriminants {
         unsafe impl Sync for TLDiscriminants {}
         unsafe impl Send for TLDiscriminants {}
 
-        #[repr(u8)]
+        #[repr(C, u8)]
         #[derive(Copy, Clone, StableAbi)]
         enum TLDiscrsInner{
             $(
@@ -374,7 +374,7 @@ declare_tl_discriminants! {
 }
 
 /// A discriminant of an enum variant.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum TLDiscriminant {

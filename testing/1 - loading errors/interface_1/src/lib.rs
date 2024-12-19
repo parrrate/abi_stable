@@ -88,7 +88,7 @@ pub enum ReturnWhat {
 }
 
 #[derive(Debug)]
-pub struct ParseReturnWhatError(String);
+pub struct ParseReturnWhatError(#[allow(unused)] String);
 
 impl std::str::FromStr for ReturnWhat {
     type Err = ParseReturnWhatError;

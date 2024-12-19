@@ -36,7 +36,6 @@ use crate::{prefix_type::PrefixRefTrait, utils::leak_value};
 ///     const VERSION_STRINGS: VersionStrings = abi_stable::package_version_strings!();
 /// }
 ///
-
 /// # fn main(){}
 /// ```
 pub trait RootModule: Sized + StableAbi + PrefixRefTrait + 'static {
@@ -139,26 +138,26 @@ pub trait RootModule: Sized + StableAbi + PrefixRefTrait + 'static {
     /// This will return these errors:
     ///
     /// - `LibraryError::OpenError`:
-    /// If the dynamic library itself could not be loaded.
+    ///     If the dynamic library itself could not be loaded.
     ///
     /// - `LibraryError::GetSymbolError`:
-    /// If the root module was not exported.
+    ///     If the root module was not exported.
     ///
     /// - `LibraryError::InvalidAbiHeader`:
-    /// If the abi_stable version used by the library is not compatible.
+    ///     If the abi_stable version used by the library is not compatible.
     ///
     /// - `LibraryError::ParseVersionError`:
-    /// If the version strings in the library can't be parsed as version numbers,
-    /// this can only happen if the version strings are manually constructed.
+    ///     If the version strings in the library can't be parsed as version numbers,
+    ///     this can only happen if the version strings are manually constructed.
     ///
     /// - `LibraryError::IncompatibleVersionNumber`:
-    /// If the version number of the library is incompatible.
+    ///     If the version number of the library is incompatible.
     ///
     /// - `LibraryError::AbiInstability`:
-    /// If the layout of the root module is not the expected one.
+    ///     If the layout of the root module is not the expected one.
     ///
     /// - `LibraryError::RootModule` :
-    /// If the root module initializer returned an error or panicked.
+    ///     If the root module initializer returned an error or panicked.
     ///
     fn load_from(where_: LibraryPath<'_>) -> Result<Self, LibraryError> {
         let statics = Self::root_module_statics();
@@ -241,10 +240,10 @@ where
 /// This will return these errors:
 ///
 /// - `LibraryError::GetSymbolError`:
-/// If the root module was not exported.
+///     If the root module was not exported.
 ///
 /// - `LibraryError::InvalidAbiHeader`:
-/// If the abi_stable used by the library is not compatible.
+///     If the abi_stable used by the library is not compatible.
 ///
 /// # Safety
 ///
@@ -265,7 +264,7 @@ pub unsafe fn lib_header_from_raw_library(
 /// This will return these errors:
 ///
 /// - `LibraryError::GetSymbolError`:
-/// If the root module was not exported.
+///     If the root module was not exported.
 ///
 /// # Safety
 ///
@@ -293,13 +292,13 @@ pub unsafe fn abi_header_from_raw_library(
 /// This will return these errors:
 ///
 /// - `LibraryError::OpenError`:
-/// If the dynamic library itself could not be loaded.
+///     If the dynamic library itself could not be loaded.
 ///
 /// - `LibraryError::GetSymbolError`:
-/// If the root module was not exported.
+///     If the root module was not exported.
 ///
 /// - `LibraryError::InvalidAbiHeader`:
-/// If the abi_stable version used by the library is not compatible.
+///     If the abi_stable version used by the library is not compatible.
 ///
 ///
 pub fn lib_header_from_path(path: &Path) -> Result<&'static LibHeader, LibraryError> {
@@ -323,10 +322,10 @@ pub fn lib_header_from_path(path: &Path) -> Result<&'static LibHeader, LibraryEr
 /// This will return these errors:
 ///
 /// - `LibraryError::OpenError`:
-/// If the dynamic library itself could not be loaded.
+///     If the dynamic library itself could not be loaded.
 ///
 /// - `LibraryError::GetSymbolError`:
-/// If the root module was not exported.
+///     If the root module was not exported.
 ///
 ///
 pub fn abi_header_from_path(path: &Path) -> Result<AbiHeaderRef, LibraryError> {

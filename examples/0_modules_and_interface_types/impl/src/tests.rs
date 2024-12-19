@@ -53,7 +53,7 @@ fn deserializing() {
     let rvref = serde_json::from_str::<&RawValue>(json).unwrap();
     let value0 = TOStateBox::deserialize_from_proxy(rvref.into()).unwrap();
 
-    let value1 = serde_json::from_str::<TOStateBox>(&json).unwrap();
+    let value1 = serde_json::from_str::<TOStateBox>(json).unwrap();
 
     assert_eq!(value0, value1);
 }

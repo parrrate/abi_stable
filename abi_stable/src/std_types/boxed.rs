@@ -49,7 +49,7 @@ mod private {
     ///     StableAbi,
     /// };
     ///
-    /// #[repr(u8)]
+    /// #[repr(C, u8)]
     /// #[derive(StableAbi)]
     /// enum Command {
     ///     SendProduct {

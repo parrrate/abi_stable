@@ -43,10 +43,10 @@ The return type of the annotated function can be one of:
 - Any type that implements `abi_stable::library::RootModule`
 
 - `Result<M, RBoxError>`, where `M` is any type that implements 
-`abi_stable::library::RootModule`
+    `abi_stable::library::RootModule`
 
 - `RResult<M, RBoxError>`, where `M` is any type that implements 
-`abi_stable::library::RootModule`
+    `abi_stable::library::RootModule`
 
 All those types are supported through the [`IntoRootModuleResult`] trait,
 which you can implement if you want to return some other type.
@@ -60,10 +60,10 @@ with these things:
 - The version of `abi_stable` used.
 
 - A `#[no_mangle]` function that wraps the annotated root-module constructor function,
-converting the return value to [`RootModuleResult`](./library/type.RootModuleResult.html).
+    converting the return value to [`RootModuleResult`](./library/type.RootModuleResult.html).
 
 - The type layout of the root module,
-for checking that the types are compatible with whatever loads that library.
+    for checking that the types are compatible with whatever loads that library.
 
 - The version number of the library.
 

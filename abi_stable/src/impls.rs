@@ -154,6 +154,7 @@ macro_rules! shared_impls {
             }
 
 
+            #[allow(clippy::non_canonical_partial_ord_impl)]
             impl<$($lt,)* $($ty,)* $($($ex_ty,)*)?> PartialOrd
                 for $tconst<$($lt,)* $($ty,)* $($($ex_ty,)*)?>
             where

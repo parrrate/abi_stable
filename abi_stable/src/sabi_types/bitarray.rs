@@ -72,10 +72,7 @@ pub struct BitArray64<E> {
 impl<E> Copy for BitArray64<E> {}
 impl<E> Clone for BitArray64<E> {
     fn clone(&self) -> Self {
-        Self {
-            bits: self.bits,
-            _marker: PhantomData,
-        }
+        *self
     }
 }
 

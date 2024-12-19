@@ -39,7 +39,7 @@ pub struct RStr<'a> {
     inner: RSlice<'a, u8>,
 }
 
-impl<'a> RStr<'a> {
+impl RStr<'_> {
     /// An empty `RStr`.
     pub const EMPTY: Self = RStr {
         inner: RSlice::EMPTY,
@@ -216,16 +216,16 @@ impl<'a> RStr<'a> {
     }
 }
 
-unsafe impl<'a> Send for RStr<'a> {}
-unsafe impl<'a> Sync for RStr<'a> {}
+unsafe impl Send for RStr<'_> {}
+unsafe impl Sync for RStr<'_> {}
 
-impl<'a> Default for RStr<'a> {
+impl Default for RStr<'_> {
     fn default() -> Self {
         Self::EMPTY
     }
 }
 
-impl<'a> Deref for RStr<'a> {
+impl Deref for RStr<'_> {
     type Target = str;
 
     #[inline]
@@ -286,7 +286,7 @@ impl_from_rust_repr! {
 
 ////////////////////////////////
 
-impl<'a> Borrow<str> for RStr<'a> {
+impl Borrow<str> for RStr<'_> {
     fn borrow(&self) -> &str {
         self
     }
@@ -321,7 +321,7 @@ impl<'de> Deserialize<'de> for RStr<'de> {
     }
 }
 
-impl<'a> Serialize for RStr<'a> {
+impl Serialize for RStr<'_> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,

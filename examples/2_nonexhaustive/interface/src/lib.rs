@@ -3,7 +3,7 @@ use abi_stable::{
     external_types::{RawValueBox, RawValueRef},
     library::RootModule,
     nonexhaustive_enum::{DeserializeEnum, NonExhaustiveFor, SerializeEnum},
-    package_version_strings, rvec, sabi_trait,
+    package_version_strings, sabi_trait,
     sabi_types::VersionStrings,
     std_types::{RBox, RBoxError, RResult, RStr, RString, RVec},
     StableAbi,
@@ -33,7 +33,7 @@ pub struct ItemId {
 ///
 /// Every variant of this enum corresponds to a variant of `ReturnVal`.
 #[non_exhaustive]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq, Deserialize, Serialize)]
 #[sabi(kind(WithNonExhaustive(
     size = [usize;8],
@@ -169,7 +169,7 @@ fn examples_of_constructing_a_command() {
 ///
 /// Every variant of this enum corresponds to a variant of `Command`.
 #[non_exhaustive]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq, Deserialize, Serialize)]
 #[sabi(kind(WithNonExhaustive(
     size = [usize;6],
@@ -310,7 +310,7 @@ fn examples_of_constructing_a_returnval() {
 ///////////////////////////////////////////////////////////////////////////////
 
 #[non_exhaustive]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi, Debug, Clone, PartialEq)]
 #[sabi(kind(WithNonExhaustive(size = [usize;6], traits(Send, Sync, Debug, Clone, PartialEq),)))]
 #[sabi(with_constructor)]
@@ -335,7 +335,7 @@ pub enum Error {
 #[test]
 #[cfg(feature = "v1_1")]
 fn examples_of_constructing_an_error() {
-    use abi_stable::nonexhaustive_enum::NonExhaustive;
+    use abi_stable::{nonexhaustive_enum::NonExhaustive, rvec};
 
     let id = ItemId { id: 0 };
 
@@ -423,7 +423,7 @@ fn serialize_json<T>(value: &T) -> Result<RawValueBox, RBoxError>
 where
     T: serde::Serialize,
 {
-    match serde_json::to_string::<T>(&value) {
+    match serde_json::to_string::<T>(value) {
         Ok(v) => unsafe { Ok(RawValueBox::from_string_unchecked(v)) },
         Err(e) => Err(RBoxError::new(e)),
     }

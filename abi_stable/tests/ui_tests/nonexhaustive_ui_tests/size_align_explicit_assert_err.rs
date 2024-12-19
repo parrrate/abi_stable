@@ -2,7 +2,7 @@
 
 use abi_stable::StableAbi;
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     size = 1,
@@ -16,7 +16,7 @@ pub enum TooLarge {
     Baz(u8),
 }
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     size = 32,
@@ -31,7 +31,7 @@ pub enum Unaligned {
 }
 
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     size = 1,

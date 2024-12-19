@@ -390,7 +390,7 @@ shared_impls! {
     original_type=AAAA,
 }
 
-impl<'a, T> Display for MovePtr<'a, T>
+impl<T> Display for MovePtr<'_, T>
 where
     T: Display,
 {
@@ -399,7 +399,7 @@ where
     }
 }
 
-impl<'a, T> Deref for MovePtr<'a, T> {
+impl<T> Deref for MovePtr<'_, T> {
     type Target = T;
 
     fn deref(&self) -> &T {
@@ -407,13 +407,13 @@ impl<'a, T> Deref for MovePtr<'a, T> {
     }
 }
 
-impl<'a, T> DerefMut for MovePtr<'a, T> {
+impl<T> DerefMut for MovePtr<'_, T> {
     fn deref_mut(&mut self) -> &mut T {
         unsafe { &mut *self.ptr.as_ptr() }
     }
 }
 
-impl<'a, T> IntoInner for MovePtr<'a, T> {
+impl<T> IntoInner for MovePtr<'_, T> {
     type Element = T;
 
     fn into_inner_(self) -> T {
@@ -421,7 +421,7 @@ impl<'a, T> IntoInner for MovePtr<'a, T> {
     }
 }
 
-impl<'a, T> Drop for MovePtr<'a, T> {
+impl<T> Drop for MovePtr<'_, T> {
     fn drop(&mut self) {
         unsafe {
             ptr::drop_in_place(self.ptr.as_ptr());
@@ -429,9 +429,9 @@ impl<'a, T> Drop for MovePtr<'a, T> {
     }
 }
 
-unsafe impl<'a, T: Send> Send for MovePtr<'a, T> {}
+unsafe impl<T: Send> Send for MovePtr<'_, T> {}
 
-unsafe impl<'a, T: Sync> Sync for MovePtr<'a, T> {}
+unsafe impl<T: Sync> Sync for MovePtr<'_, T> {}
 
 //#[cfg(test)]
 #[cfg(all(test, not(feature = "only_new_tests")))]

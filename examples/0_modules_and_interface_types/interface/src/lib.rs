@@ -124,7 +124,7 @@ pub type TOStateBox = DynTrait<'static, RBox<()>, TOState>;
 /// First <ConcreteType as DeserializeType>::serialize_impl returns
 /// a RawValueBox containing the serialized data,
 /// then the returned RawValueBox is serialized.
-impl<'a> SerializeProxyType<'a> for TOState {
+impl SerializeProxyType<'_> for TOState {
     type Proxy = RawValueBox;
 }
 
@@ -165,7 +165,7 @@ impl<'a> IteratorItem<'a> for TOCommand {
 /// First <ConcreteType as DeserializeType>::serialize_impl returns
 /// a RawValueBox containing the serialized data,
 /// then the returned RawValueBox is serialized.
-impl<'a> SerializeProxyType<'a> for TOCommand {
+impl SerializeProxyType<'_> for TOCommand {
     type Proxy = RawValueBox;
 }
 
@@ -200,7 +200,7 @@ pub type TOReturnValueArc = DynTrait<'static, RArc<()>, TOReturnValue>;
 /// First <ConcreteType as SerializeType>::serialize_impl returns
 /// a RawValueBox containing the serialized data,
 /// then the returned RawValueBox is serialized.
-impl<'a> SerializeProxyType<'a> for TOReturnValue {
+impl SerializeProxyType<'_> for TOReturnValue {
     type Proxy = RawValueBox;
 }
 

@@ -14,7 +14,7 @@ use abi_stable::{
     DynTrait,
 };
 
-use example_0_interface::{CowStrIter, RemoveWords, TOStateBox, TextOpsMod_Ref};
+use example_0_interface::{RemoveWords, TOStateBox, TextOpsMod_Ref};
 
 mod tests;
 
@@ -86,7 +86,6 @@ enum Command {
 
     #[structopt(name = "run-tests")]
     #[structopt(author = "_")]
-
     /// Runs some tests that require a dynamic library.
     /// This is how some integration tests are done,may be replaced with a
     /// dedicated test suite eventually.
@@ -169,7 +168,7 @@ fn main() -> io::Result<()> {
 
             match file.as_ref().map(|f| (f, fs::read_to_string(f))) {
                 Some((_, Ok(file))) => {
-                    println!("{}", run_command(mods, &mut state, &*file));
+                    println!("{}", run_command(mods, &mut state, &file));
                 }
                 Some((path, Err(e))) => {
                     println!(

@@ -1184,7 +1184,6 @@ mod serde {
     //debug_print,
 )]
 struct VTable<K, V, S> {
-    ///
     insert_elem: unsafe extern "C" fn(RMut<'_, ErasedMap<K, V, S>>, K, V) -> ROption<V>,
 
     get_elem: for<'a> unsafe extern "C" fn(

@@ -32,7 +32,7 @@ Currently this library has these features:
 - Provides the [`StableAbi`] trait for asserting that types are ffi-safe.
 
 - The [prefix types] feature for building extensible modules and vtables,
-without breaking ABI compatibility.
+    without breaking ABI compatibility.
 
 - Supports ffi-safe [nonexhaustive enums], wrapped in [`NonExhaustive`].
 
@@ -90,7 +90,7 @@ These are crate features to manually enable support for newer language features:
 - "rust_1_64": Turns many functions for converting types to slices into const fns.
 
 - "rust_latest_stable":
-Enables the "rust_1_*" features for all the stable releases.
+    Enables the "rust_1_*" features for all the stable releases.
 
 # Glossary
 
@@ -203,7 +203,6 @@ https://github.com/rodrimati1992/abi_stable_crates/blob/master/readme.md#readme_
 #![allow(clippy::type_complexity)]
 #![allow(clippy::ptr_offset_with_cast)]
 #![allow(clippy::assertions_on_constants)]
-#![deny(missing_docs)]
 #![deny(clippy::missing_safety_doc)]
 // #![deny(clippy::missing_const_for_fn)]
 #![deny(unsafe_op_in_unsafe_fn)]

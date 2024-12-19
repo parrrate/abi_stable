@@ -129,17 +129,17 @@ impl LibHeader {
     /// This returns these errors:
     ///
     /// - `LibraryError::ParseVersionError`:
-    /// If the version strings in the library can't be parsed as version numbers,
-    /// this can only happen if the version strings are manually constructed.
+    ///     If the version strings in the library can't be parsed as version numbers,
+    ///     this can only happen if the version strings are manually constructed.
     ///
     /// - `LibraryError::IncompatibleVersionNumber`:
-    /// If the version number of the library is incompatible.
+    ///     If the version number of the library is incompatible.
     ///
     /// - `LibraryError::AbiInstability`:
-    /// If the layout of the root module is not the expected one.
+    ///     If the layout of the root module is not the expected one.
     ///
     /// - `LibraryError::RootModule` :
-    /// If the root module initializer returned an error or panicked.
+    ///     If the root module initializer returned an error or panicked.
     ///
     ///
     pub fn init_root_module<M>(&self) -> Result<M, LibraryError>
@@ -174,14 +174,14 @@ impl LibHeader {
     /// This returns these errors:
     ///
     /// - `LibraryError::ParseVersionError`:
-    /// If the version strings in the library can't be parsed as version numbers,
-    /// this can only happen if the version strings are manually constructed.
+    ///     If the version strings in the library can't be parsed as version numbers,
+    ///     this can only happen if the version strings are manually constructed.
     ///
     /// - `LibraryError::IncompatibleVersionNumber`:
-    /// If the version number of the library is incompatible.
+    ///     If the version number of the library is incompatible.
     ///
     /// - `LibraryError::RootModule` :
-    /// If the root module initializer returned an error or panicked.
+    ///     If the root module initializer returned an error or panicked.
     ///
     ///
     pub unsafe fn init_root_module_with_unchecked_layout<M>(&self) -> Result<M, LibraryError>
@@ -200,10 +200,10 @@ impl LibHeader {
     /// This returns these errors:
     ///
     /// - `LibraryError::AbiInstability`:
-    /// If the layout of the root module is not the expected one.
+    ///     If the layout of the root module is not the expected one.
     ///
     /// - `LibraryError::RootModule` :
-    /// If the root module initializer returned an error or panicked.
+    ///     If the root module initializer returned an error or panicked.
     ///
     pub fn ensure_layout<M>(&self) -> Result<(), LibraryError>
     where
@@ -246,10 +246,10 @@ impl LibHeader {
     /// This returns these errors:
     ///
     /// - `LibraryError::AbiInstability`:
-    /// If the layout of the root module is not the expected one.
+    ///     If the layout of the root module is not the expected one.
     ///
     /// - `LibraryError::RootModule` :
-    /// If the root module initializer returned an error or panicked.
+    ///     If the root module initializer returned an error or panicked.
     ///
     pub fn check_layout<M>(&self) -> Result<M, LibraryError>
     where
@@ -398,10 +398,10 @@ impl AbiHeaderRef {
     /// This returns these errors:
     ///
     /// - `LibraryError::InvalidAbiHeader`:
-    /// If the abi_stable used by the library is not compatible.
+    ///     If the abi_stable used by the library is not compatible.
     ///
     /// - `LibraryError::InvalidCAbi`:
-    /// If the C abi used by the library is not compatible.
+    ///     If the C abi used by the library is not compatible.
     pub fn upgrade(self) -> Result<&'static LibHeader, LibraryError> {
         if !self.is_valid() {
             return Err(LibraryError::InvalidAbiHeader(*self));

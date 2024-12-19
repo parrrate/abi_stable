@@ -64,7 +64,7 @@ macro_rules! impl_write {
     }
 }
 
-impl<'a> Hasher for HasherObject<'a> {
+impl Hasher for HasherObject<'_> {
     fn finish(&self) -> u64 {
         unsafe { (self.finish)(self.this.as_rref()) }
     }

@@ -416,7 +416,7 @@ macro_rules! impl_lock_guard {
 
 impl_lock_guard! { RReadGuard  }
 
-impl<'a, T> Drop for RReadGuard<'a, T> {
+impl<T> Drop for RReadGuard<'_, T> {
     fn drop(&mut self) {
         let vtable = self.rlock.vtable();
         vtable.unlock_shared()(&self.rlock.raw_lock);
@@ -426,13 +426,13 @@ impl<'a, T> Drop for RReadGuard<'a, T> {
 //////////////////////////////////////
 
 impl_lock_guard! { RWriteGuard }
-impl<'a, T> DerefMut for RWriteGuard<'a, T> {
+impl<T> DerefMut for RWriteGuard<'_, T> {
     fn deref_mut(&mut self) -> &mut T {
         unsafe { &mut *self.rlock.data.get() }
     }
 }
 
-impl<'a, T> Drop for RWriteGuard<'a, T> {
+impl<T> Drop for RWriteGuard<'_, T> {
     fn drop(&mut self) {
         let vtable = self.rlock.vtable();
         vtable.unlock_exclusive()(&self.rlock.raw_lock);

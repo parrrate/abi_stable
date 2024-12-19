@@ -59,13 +59,13 @@ use crate::{
 /// using these (fallible) conversion methods:
 ///
 /// - [`downcast_into`](#method.downcast_into):
-/// Unwraps into a pointer to `T`.Requires `T: 'static`.
+///     Unwraps into a pointer to `T`.Requires `T: 'static`.
 ///
 /// - [`downcast_as`](#method.downcast_as):
-/// Unwraps into a `&T`.Requires `T: 'static`.
+///     Unwraps into a `&T`.Requires `T: 'static`.
 ///
 /// - [`downcast_as_mut`](#method.downcast_as_mut):
-/// Unwraps into a `&mut T`.Requires `T: 'static`.
+///     Unwraps into a `&mut T`.Requires `T: 'static`.
 ///
 /// `RObject` can only be converted back if the trait object was constructed to allow it.
 ///
@@ -98,7 +98,7 @@ mod clone_impl {
 use self::clone_impl::CloneImpl;
 
 /// This impl is for smart pointers.
-impl<'lt, P, I, V> CloneImpl<PK_SmartPointer> for RObject<'lt, P, I, V>
+impl<P, I, V> CloneImpl<PK_SmartPointer> for RObject<'_, P, I, V>
 where
     P: AsPtr,
     I: InterfaceType<Clone = Implemented<trait_marker::Clone>>,
@@ -115,7 +115,7 @@ where
 }
 
 /// This impl is for references.
-impl<'lt, P, I, V> CloneImpl<PK_Reference> for RObject<'lt, P, I, V>
+impl<P, I, V> CloneImpl<PK_Reference> for RObject<'_, P, I, V>
 where
     P: AsPtr + Copy,
     I: InterfaceType,
@@ -160,7 +160,7 @@ where
 /// ```
 ///
 ///
-impl<'lt, P, I, V> Clone for RObject<'lt, P, I, V>
+impl<P, I, V> Clone for RObject<'_, P, I, V>
 where
     P: AsPtr,
     I: InterfaceType,
@@ -171,7 +171,7 @@ where
     }
 }
 
-impl<'lt, P, I, V> Debug for RObject<'lt, P, I, V>
+impl<P, I, V> Debug for RObject<'_, P, I, V>
 where
     P: AsPtr<PtrTarget = ()> + AsPtr,
     I: InterfaceType<Debug = Implemented<trait_marker::Debug>>,
@@ -187,7 +187,7 @@ where
     }
 }
 
-impl<'lt, P, I, V> Display for RObject<'lt, P, I, V>
+impl<P, I, V> Display for RObject<'_, P, I, V>
 where
     P: AsPtr<PtrTarget = ()>,
     I: InterfaceType<Display = Implemented<trait_marker::Display>>,
@@ -203,7 +203,7 @@ where
     }
 }
 
-impl<'lt, P, I, V> std::error::Error for RObject<'lt, P, I, V>
+impl<P, I, V> std::error::Error for RObject<'_, P, I, V>
 where
     P: AsPtr<PtrTarget = ()>,
     I: InterfaceType<
@@ -214,21 +214,21 @@ where
 {
 }
 
-unsafe impl<'lt, P, I, V> Send for RObject<'lt, P, I, V>
+unsafe impl<P, I, V> Send for RObject<'_, P, I, V>
 where
     P: GetPointerKind,
     I: InterfaceType<Send = Implemented<trait_marker::Send>>,
 {
 }
 
-unsafe impl<'lt, P, I, V> Sync for RObject<'lt, P, I, V>
+unsafe impl<P, I, V> Sync for RObject<'_, P, I, V>
 where
     P: GetPointerKind,
     I: InterfaceType<Sync = Implemented<trait_marker::Sync>>,
 {
 }
 
-impl<'lt, P, I, V> Unpin for RObject<'lt, P, I, V>
+impl<P, I, V> Unpin for RObject<'_, P, I, V>
 where
     // `Unpin` is a property of the referent
     P: GetPointerKind,
@@ -312,7 +312,7 @@ impl<'borr, 'a, I, V> RObject<'borr, RRef<'a, ()>, I, V> {
     }
 }
 
-impl<'lt, P, I, V> RObject<'lt, P, I, V>
+impl<P, I, V> RObject<'_, P, I, V>
 where
     P: GetPointerKind,
 {
@@ -343,10 +343,10 @@ where
     /// This will return an error in any of these conditions:
     ///
     /// - It is called in a dynamic library/binary outside
-    /// the one from which this RObject was constructed.
+    ///     the one from which this RObject was constructed.
     ///
     /// - The trait object wrapping this `RObject` was constructed with a
-    /// `TD_CanDowncast` argument.
+    ///     `TD_CanDowncast` argument.
     ///
     /// - `T` is not the concrete type this `RObject<_>` was constructed with.
     ///
@@ -388,10 +388,10 @@ where
     /// This will return an error in any of these conditions:
     ///
     /// - It is called in a dynamic library/binary outside
-    /// the one from which this RObject was constructed.
+    ///     the one from which this RObject was constructed.
     ///
     /// - The trait object wrapping this `RObject` was constructed with a
-    /// `TD_CanDowncast` argument.
+    ///     `TD_CanDowncast` argument.
     ///
     /// - `T` is not the concrete type this `RObject<_>` was constructed with.
     ///
@@ -449,10 +449,10 @@ where
     /// This will return an error in any of these conditions:
     ///
     /// - It is called in a dynamic library/binary outside
-    /// the one from which this RObject was constructed.
+    ///     the one from which this RObject was constructed.
     ///
     /// - The trait object wrapping this `RObject` was constructed with a
-    /// `TD_CanDowncast` argument.
+    ///     `TD_CanDowncast` argument.
     ///
     /// - `T` is not the concrete type this `RObject<_>` was constructed with.
     ///
@@ -746,7 +746,7 @@ where
     }
 }
 
-impl<'lt, P, I, V> RObject<'lt, P, I, V>
+impl<P, I, V> RObject<'_, P, I, V>
 where
     P: GetPointerKind,
 {
@@ -811,7 +811,7 @@ where
     }
 }
 
-impl<'lt, I, V> RObject<'lt, crate::std_types::RArc<()>, I, V> {
+impl<I, V> RObject<'_, crate::std_types::RArc<()>, I, V> {
     /// Does a shallow clone of the object, just incrementing the reference counter
     pub fn shallow_clone(&self) -> Self {
         Self {

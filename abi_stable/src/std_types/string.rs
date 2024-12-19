@@ -467,7 +467,7 @@ impl RString {
     pub fn pop(&mut self) -> Option<char> {
         // literal copy-paste of std, so if this is wrong std is wrong.
 
-        let ch = self.chars().rev().next()?;
+        let ch = self.chars().next_back()?;
         let newlen = self.len() - ch.len_utf8();
         unsafe {
             self.inner.set_len(newlen);

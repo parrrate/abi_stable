@@ -7,7 +7,7 @@ use crate::{
     type_layout::{FieldAccessor, TLData, TLField},
 };
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 pub enum PubEnum {
     Variant0,

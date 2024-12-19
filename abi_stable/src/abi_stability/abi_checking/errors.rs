@@ -219,11 +219,11 @@ impl fmt::Display for AbiInstabilityError {
 /// All the errors from checking the layout of every nested type in TypeLayout.
 #[derive(Clone, PartialEq)]
 #[repr(C)]
+#[non_exhaustive]
 pub struct AbiInstabilityErrors {
     pub interface: &'static TypeLayout,
     pub implementation: &'static TypeLayout,
     pub errors: RVec<AbiInstabilityError>,
-    pub(super) _priv: (),
 }
 
 /// All the shallow errors from checking an individual type.
@@ -232,9 +232,9 @@ pub struct AbiInstabilityErrors {
 ///  `AbiInstabilityError`s.
 #[derive(Debug, Clone, PartialEq)]
 #[repr(C)]
+#[non_exhaustive]
 pub struct AbiInstabilityError {
     pub stack_trace: RVec<ExpectedFound<TLFieldOrFunction>>,
     pub errs: RVec<AbiInstability>,
     pub index: usize,
-    pub(super) _priv: (),
 }

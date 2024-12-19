@@ -96,8 +96,8 @@ use crate::{
 /// - `U` is a `#[repr(transparent)]` wrapper over `T`
 ///
 /// - `U` and `T` are both `#[repr(C)]` structs,
-/// in which `T` starts with the fields of `U` in the same order,
-/// and `U` has an alignment equal to or lower than `T`.
+///     in which `T` starts with the fields of `U` in the same order,
+///     and `U` has an alignment equal to or lower than `T`.
 ///
 /// Please note that it can be unsound to transmute a non-local
 /// type if it has private fields,
@@ -116,7 +116,7 @@ pub struct RMut<'a, T> {
     _marker: PhantomData<crate::utils::MutRef<'a, T>>,
 }
 
-impl<'a, T> Display for RMut<'a, T>
+impl<T> Display for RMut<'_, T>
 where
     T: Display,
 {
@@ -623,7 +623,7 @@ impl<'a, T> RMut<'a, T> {
     }
 }
 
-unsafe impl<'a, T> AsPtr for RMut<'a, T> {
+unsafe impl<T> AsPtr for RMut<'_, T> {
     #[inline(always)]
     fn as_ptr(&self) -> *const T {
         self.ref_.as_ptr() as *const T
@@ -634,7 +634,7 @@ unsafe impl<'a, T> AsPtr for RMut<'a, T> {
     }
 }
 
-unsafe impl<'a, T> AsMutPtr for RMut<'a, T> {
+unsafe impl<T> AsMutPtr for RMut<'_, T> {
     #[inline(always)]
     fn as_mut_ptr(&mut self) -> *mut T {
         self.ref_.as_ptr()
@@ -646,7 +646,7 @@ unsafe impl<'a, T> AsMutPtr for RMut<'a, T> {
     }
 }
 
-unsafe impl<'a, T> GetPointerKind for RMut<'a, T> {
+unsafe impl<T> GetPointerKind for RMut<'_, T> {
     type Kind = PK_MutReference;
 
     type PtrTarget = T;

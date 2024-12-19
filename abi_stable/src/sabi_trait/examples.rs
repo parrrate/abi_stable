@@ -276,7 +276,7 @@ where
     T: Copy + Send + Sync + Debug,
 {
     fn get(&self) -> &T {
-        &**self
+        self
     }
     fn into_value(self) -> T {
         *self
@@ -288,7 +288,7 @@ where
     T: Copy + Send + Debug,
 {
     fn get(&self) -> &T {
-        &**self
+        self
     }
     fn into_value(self) -> T {
         *self

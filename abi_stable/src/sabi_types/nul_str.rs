@@ -28,7 +28,7 @@ use std::{
 /// - the string must be utf8 encoded
 /// - the string must be nul terminated
 /// - the string must not be mutated while this is alive
-/// (the same semantics as `&` references)
+///     (the same semantics as `&` references)
 ///
 /// # Example
 ///
@@ -416,7 +416,7 @@ impl<'a> PartialEq<NulStr<'a>> for &str {
     }
 }
 
-impl<'a> PartialEq<&str> for NulStr<'a> {
+impl PartialEq<&str> for NulStr<'_> {
     fn eq(&self, other: &&str) -> bool {
         self.as_ptr() == other.as_ptr() || self.to_str() == *other
     }
@@ -428,27 +428,27 @@ impl<'a> PartialEq<NulStr<'a>> for str {
     }
 }
 
-impl<'a> PartialEq<str> for NulStr<'a> {
+impl PartialEq<str> for NulStr<'_> {
     fn eq(&self, other: &str) -> bool {
         self.as_ptr() == other.as_ptr() || self.to_str() == other
     }
 }
 
-impl<'a> PartialEq for NulStr<'a> {
+impl PartialEq for NulStr<'_> {
     fn eq(&self, other: &Self) -> bool {
         self.ptr == other.ptr || self.to_str() == other.to_str()
     }
 }
 
-impl<'a> Eq for NulStr<'a> {}
+impl Eq for NulStr<'_> {}
 
-impl<'a> PartialOrd for NulStr<'a> {
+impl PartialOrd for NulStr<'_> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl<'a> Ord for NulStr<'a> {
+impl Ord for NulStr<'_> {
     fn cmp(&self, other: &Self) -> Ordering {
         if self.ptr == other.ptr {
             Ordering::Equal

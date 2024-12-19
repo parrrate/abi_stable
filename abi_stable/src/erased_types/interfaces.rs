@@ -24,7 +24,6 @@ pub struct CloneEqInterface;
 pub struct DEIteratorCloneInterface<T>(PhantomData<T>);
 
 impl<T> DEIteratorCloneInterface<T> {
-    ///
     pub const NEW: Self = Self(PhantomData);
 }
 
@@ -97,7 +96,6 @@ pub struct DebugDisplayInterface;
 pub struct IteratorInterface<T>(PhantomData<T>);
 
 impl<T> IteratorInterface<T> {
-    ///
     pub const NEW: Self = Self(PhantomData);
 }
 
@@ -114,7 +112,6 @@ impl<'a, T: 'a> IteratorItem<'a> for IteratorInterface<T> {
 pub struct DEIteratorInterface<T>(PhantomData<T>);
 
 impl<T> DEIteratorInterface<T> {
-    ///
     pub const NEW: Self = Self(PhantomData);
 }
 

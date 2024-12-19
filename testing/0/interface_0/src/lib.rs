@@ -81,7 +81,7 @@ macro_rules! declare_PrefixTypeMod {
 
 declare_PrefixTypeMod! {
     struct PrefixTypeMod0;
-    prefix_ref= PrefixTypeMod0_Ref;
+    prefix_ref = PrefixTypeMod0_Ref;
 }
 
 declare_PrefixTypeMod! {

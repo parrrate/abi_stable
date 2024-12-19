@@ -116,7 +116,7 @@ mod privacy {
         }
     }
 
-    impl<'a, T> RSliceMut<'a, T> {
+    impl<T> RSliceMut<'_, T> {
         #[inline(always)]
         pub(super) const fn data(&self) -> *mut T {
             self.data
@@ -490,7 +490,7 @@ impl<'a, T> RSliceMut<'a, T> {
 unsafe impl<'a, T> Send for RSliceMut<'a, T> where &'a mut [T]: Send {}
 unsafe impl<'a, T> Sync for RSliceMut<'a, T> where &'a mut [T]: Sync {}
 
-impl<'a, T> Default for RSliceMut<'a, T> {
+impl<T> Default for RSliceMut<'_, T> {
     fn default() -> Self {
         (&mut [][..]).into()
     }
@@ -528,7 +528,7 @@ slice_like_impl_cmp_traits! {
     crate::std_types::RCowSlice<'_, U>,
 }
 
-impl<'a, T> Deref for RSliceMut<'a, T> {
+impl<T> Deref for RSliceMut<'_, T> {
     type Target = [T];
 
     fn deref(&self) -> &Self::Target {
@@ -536,7 +536,7 @@ impl<'a, T> Deref for RSliceMut<'a, T> {
     }
 }
 
-impl<'a, T> DerefMut for RSliceMut<'a, T> {
+impl<T> DerefMut for RSliceMut<'_, T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.as_mut_slice()
     }
@@ -584,7 +584,7 @@ impl<'a, T: 'a> AsMut<[T]> for RSliceMut<'a, T> {
     }
 }
 
-impl<'a, T, I: SliceIndex<[T]>> Index<I> for RSliceMut<'a, T> {
+impl<T, I: SliceIndex<[T]>> Index<I> for RSliceMut<'_, T> {
     type Output = I::Output;
 
     #[inline]
@@ -593,7 +593,7 @@ impl<'a, T, I: SliceIndex<[T]>> Index<I> for RSliceMut<'a, T> {
     }
 }
 
-impl<'a, T, I: SliceIndex<[T]>> IndexMut<I> for RSliceMut<'a, T> {
+impl<T, I: SliceIndex<[T]>> IndexMut<I> for RSliceMut<'_, T> {
     #[inline]
     fn index_mut(&mut self, index: I) -> &mut Self::Output {
         IndexMut::index_mut(&mut **self, index)
@@ -601,7 +601,7 @@ impl<'a, T, I: SliceIndex<[T]>> IndexMut<I> for RSliceMut<'a, T> {
 }
 
 ////////////////////////////
-impl<'a, T> Serialize for RSliceMut<'a, T>
+impl<T> Serialize for RSliceMut<'_, T>
 where
     T: Serialize,
 {
@@ -615,7 +615,7 @@ where
 
 ///////////////////////////////////////////////////////////////////////////////
 
-impl<'a> Write for RSliceMut<'a, u8> {
+impl Write for RSliceMut<'_, u8> {
     #[inline]
     fn write(&mut self, data: &[u8]) -> io::Result<usize> {
         let mut this = mem::take(self).into_mut_slice();

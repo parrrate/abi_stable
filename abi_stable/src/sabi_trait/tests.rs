@@ -37,6 +37,7 @@ mod method_disabled_one_default {
     use super::*;
 
     #[sabi_trait]
+    #[allow(unused)]
     pub trait Trait {
         fn first_method(&self) -> u32 {
             0xF000
@@ -62,6 +63,7 @@ mod method_disabled_all_default {
 
     #[sabi_trait]
     #[sabi(no_default_fallback)]
+    #[allow(unused)]
     pub trait Trait {
         fn first_method(&self) -> u32 {
             0xF000
@@ -94,6 +96,7 @@ mod method_default {
 
 #[test]
 fn downcasting_tests() {
+    #![expect(clippy::missing_transmute_annotations)]
     unsafe {
         use self::method_disabled_one_default::*;
         let empty = empty::Trait_TO::from_value((), TD_Opaque);
@@ -301,6 +304,7 @@ mod has_docs {
     #[crate::sabi_trait]
     /// below
     #[sabi(debug_output_tokens)]
+    #[allow(unused)]
     pub trait HasDocs {
         /// above2
         /// below2

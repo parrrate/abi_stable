@@ -316,7 +316,6 @@ impl AbiChecker {
                             stack_trace: self.stack_trace.clone(),
                             errs: errs_,
                             index: errs_index,
-                            _priv: (),
                         });
                     }
 
@@ -380,7 +379,6 @@ impl AbiChecker {
                             implementation: other,
                         }],
                         index: errs_index,
-                        _priv: (),
                     });
                     return Err(());
                 }
@@ -630,7 +628,6 @@ impl AbiChecker {
                 stack_trace: self.stack_trace.clone(),
                 errs: errs_,
                 index: errs_index,
-                _priv: (),
             });
 
             Err(())
@@ -865,7 +862,6 @@ impl AbiChecker {
                 stack_trace: self.stack_trace.clone(),
                 errs: errs_,
                 index: self.error_index,
-                _priv: (),
             })
         }
     }
@@ -972,7 +968,6 @@ impl AbiChecker {
                 stack_trace: self.stack_trace.clone(),
                 errs: errs_,
                 index: self.error_index,
-                _priv: (),
             })
         }
     }
@@ -1067,7 +1062,6 @@ impl AbiChecker {
                 stack_trace: self.stack_trace.clone(),
                 errs: errs_,
                 index: self.error_index,
-                _priv: (),
             });
             Err(top_level_errs_)
         }
@@ -1110,7 +1104,6 @@ pub fn check_layout_compatibility_with_globals(
             stack_trace: vec![].into(),
             errs,
             index: 0,
-            _priv: (),
         }]
         .into();
     } else {
@@ -1138,7 +1131,6 @@ pub fn check_layout_compatibility_with_globals(
             interface,
             implementation,
             errors,
-            _priv: (),
         })
     }
 }
@@ -1162,10 +1154,9 @@ pub(crate) extern "C" fn check_layout_compatibility_for_ffi(
                     stack_trace: vec![].into(),
                     errs:vec![AbiInstability::ReentrantLayoutCheckingCall].into(),
                     index: 0,
-                    _priv:(),
                 }].into_c();
 
-            Err(AbiInstabilityErrors{ interface, implementation, errors, _priv:() })
+            Err(AbiInstabilityErrors{ interface, implementation, errors })
         }else{
             check_layout_compatibility(interface,implementation)
         }.map_err(RBoxError::new)
@@ -1251,7 +1242,6 @@ unsafe impl TypeChecker for AbiChecker {
                     interface,
                     implementation,
                     errors: self.errors.drain(error_count_before..).collect(),
-                    _priv: (),
                 }
                 .piped(RBoxError::new)
                 .piped(ExtraChecksError::TypeCheckerErrors)
@@ -1262,7 +1252,7 @@ unsafe impl TypeChecker for AbiChecker {
 ///////////////////////////////////////////////
 
 thread_local! {
-    static INSIDE_LAYOUT_CHECKER:Cell<bool>=Cell::new(false);
+    static INSIDE_LAYOUT_CHECKER:Cell<bool> = const { Cell::new(false) };
 }
 
 struct LayoutCheckerGuard;

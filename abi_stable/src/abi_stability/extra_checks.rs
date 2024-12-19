@@ -840,12 +840,12 @@ pub trait ForExtraChecksImplementor: StableAbi + ExtraChecks {
     }
 }
 
-impl<This> ForExtraChecksImplementor for This where This: ?Sized + StableAbi + ExtraChecks {}
+impl<This> ForExtraChecksImplementor for This where This: StableAbi + ExtraChecks {}
 
 ///////////////////////////////////////////////////////////////////////////////
 
 /// The errors returned from `ExtraChecks` and `ForExtraChecksImplementor` methods.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, StableAbi)]
 pub enum ExtraChecksError {
     /// When a type checking error happens within `TypeChecker`.

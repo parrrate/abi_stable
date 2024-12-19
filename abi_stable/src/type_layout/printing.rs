@@ -333,7 +333,7 @@ struct TypeLayoutPointer {
 
 struct WithIndices<'a, T>(&'a [T]);
 
-impl<'a, T> Debug for WithIndices<'a, T>
+impl<T> Debug for WithIndices<'_, T>
 where
     T: Debug,
 {

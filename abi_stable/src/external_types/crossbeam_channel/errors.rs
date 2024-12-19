@@ -87,7 +87,7 @@ impl_into_rust_repr! {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(PartialEq, Eq, Clone, Copy, StableAbi)]
 pub enum RTrySendError<T> {
     Full(T),
@@ -212,7 +212,7 @@ impl_into_rust_repr! {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(PartialEq, Eq, Clone, Copy, StableAbi)]
 pub enum RSendTimeoutError<T> {
     Timeout(T),

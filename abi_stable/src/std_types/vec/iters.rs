@@ -183,7 +183,7 @@ pub struct Drain<'a, T> {
     pub(super) slice_len: usize,
 }
 
-impl<'a, T> Drain<'a, T> {
+impl<T> Drain<'_, T> {
     /// Returns a slice over the remainder of the `Vec<T>` that is being drained.
     ///
     /// # Example
@@ -239,7 +239,7 @@ impl<'a, T> Drain<'a, T> {
     }
 }
 
-impl<'a, T> Iterator for Drain<'a, T> {
+impl<T> Iterator for Drain<'_, T> {
     type Item = T;
     fn next(&mut self) -> Option<T> {
         self.iter.next()
@@ -249,13 +249,13 @@ impl<'a, T> Iterator for Drain<'a, T> {
     }
 }
 
-impl<'a, T> DoubleEndedIterator for Drain<'a, T> {
+impl<T> DoubleEndedIterator for Drain<'_, T> {
     fn next_back(&mut self) -> Option<T> {
         self.iter.next_back()
     }
 }
 
-impl<'a, T> Drop for Drain<'a, T> {
+impl<T> Drop for Drain<'_, T> {
     fn drop(&mut self) {
         self.iter.by_ref().for_each(drop);
         unsafe {
@@ -341,7 +341,7 @@ where
             drain: &'b mut DrainFilter<'a, T, F>,
         }
 
-        impl<'a, 'b, T, F> Drop for BackshiftOnDrop<'a, 'b, T, F>
+        impl<T, F> Drop for BackshiftOnDrop<'_, '_, T, F>
         where
             F: FnMut(&mut T) -> bool,
         {

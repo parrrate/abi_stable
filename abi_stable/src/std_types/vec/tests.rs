@@ -24,7 +24,7 @@ fn const_as_slice_test() {
 fn test_equality_between_vecs() {
     struct F<T>(T);
 
-    fn eq<'a, 'b, T>(left: &RVec<&'a T>, right: &RVec<&'b T>) -> bool
+    fn eq<T>(left: &RVec<&T>, right: &RVec<&T>) -> bool
     where
         T: std::cmp::PartialEq,
     {

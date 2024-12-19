@@ -19,9 +19,7 @@ use crate::{
 /// Information about a panic, used in `ffi_panic_message`.
 #[derive(Debug, Copy, Clone)]
 pub struct PanicInfo {
-    ///
     pub file: &'static str,
-    ///
     pub line: u32,
 }
 
@@ -112,9 +110,7 @@ impl Drop for AbortBomb {
 /// [`std::mem::transmute_copy`]: https://doc.rust-lang.org/std/mem/fn.transmute_copy.html
 #[repr(C)]
 pub union Transmuter<T: Copy, U: Copy> {
-    ///
     pub from: T,
-    ///
     pub to: U,
 }
 

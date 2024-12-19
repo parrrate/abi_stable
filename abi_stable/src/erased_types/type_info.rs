@@ -15,13 +15,10 @@ use crate::{
 #[repr(C)]
 #[derive(StableAbi)]
 pub struct TypeInfo {
-    ///
     pub size: usize,
-    ///
     pub alignment: usize,
     #[doc(hidden)]
     pub _uid: Constructor<MaybeCmp<UTypeId>>,
-    ///
     pub type_name: Constructor<RStr<'static>>,
     #[doc(hidden)]
     pub _private_field: (),

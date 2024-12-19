@@ -91,8 +91,8 @@ use crate::{
 /// - `U` is a `#[repr(transparent)]` wrapper over `T`
 ///
 /// - `U` and `T` are both `#[repr(C)]` structs,
-/// in which `T` starts with the fields of `U` in the same order,
-/// and `U` has an alignment equal to or lower than `T`.
+///     in which `T` starts with the fields of `U` in the same order,
+///     and `U` has an alignment equal to or lower than `T`.
 ///
 /// Please note that it can be unsound to transmute a non-local
 /// type if it has private fields,
@@ -111,7 +111,7 @@ pub struct RRef<'a, T> {
     _marker: PhantomData<&'a T>,
 }
 
-impl<'a, T> Display for RRef<'a, T>
+impl<T> Display for RRef<'_, T>
 where
     T: Display,
 {
@@ -120,13 +120,13 @@ where
     }
 }
 
-impl<'a, T> Clone for RRef<'a, T> {
+impl<T> Clone for RRef<'_, T> {
     fn clone(&self) -> Self {
         *self
     }
 }
 
-impl<'a, T> Copy for RRef<'a, T> {}
+impl<T> Copy for RRef<'_, T> {}
 
 unsafe impl<'a, T> Sync for RRef<'a, T> where &'a T: Sync {}
 
@@ -321,7 +321,7 @@ impl<'a, T> RRef<'a, T> {
     }
 }
 
-unsafe impl<'a, T> GetPointerKind for RRef<'a, T> {
+unsafe impl<T> GetPointerKind for RRef<'_, T> {
     type Kind = PK_Reference;
 
     type PtrTarget = T;

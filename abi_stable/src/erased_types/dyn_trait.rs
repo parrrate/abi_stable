@@ -144,13 +144,13 @@ mod priv_ {
     /// using these (fallible) conversion methods:
     ///
     /// - [`downcast_into`](#method.downcast_into):
-    /// Unwraps into a pointer to `T`.Requires `T:'static`.
+    ///     Unwraps into a pointer to `T`.Requires `T:'static`.
     ///
     /// - [`downcast_as`](#method.downcast_as):
-    /// Unwraps into a `&T`.Requires `T:'static`.
+    ///     Unwraps into a `&T`.Requires `T:'static`.
     ///
     /// - [`downcast_as_mut`](#method.downcast_as_mut):
-    /// Unwraps into a `&mut T`.Requires `T:'static`.
+    ///     Unwraps into a `&mut T`.Requires `T:'static`.
     ///
     ///
     /// `DynTrait` cannot be converted back if it was created
@@ -788,7 +788,7 @@ mod priv_ {
         }
     }
 
-    impl<'borr, P, I, EV> DynTrait<'borr, P, I, EV>
+    impl<P, I, EV> DynTrait<'_, P, I, EV>
     where
         P: GetPointerKind,
     {
@@ -811,10 +811,10 @@ mod priv_ {
         /// Notes:
         ///
         /// - Types from different dynamic libraries/executables are
-        /// never considered equal.
+        ///     never considered equal.
         ///
         /// - `DynTrait`s constructed using `DynTrait::from_borrowing_*`
-        /// are never considered to wrap the same type.
+        ///     are never considered to wrap the same type.
         pub fn sabi_is_same_type<Other, I2, EV2>(
             &self,
             other: &DynTrait<'static, Other, I2, EV2>,
@@ -831,7 +831,7 @@ mod priv_ {
         }
     }
 
-    impl<'borr, P, I, EV> DynTrait<'borr, P, I, PrefixRef<EV>>
+    impl<P, I, EV> DynTrait<'_, P, I, PrefixRef<EV>>
     where
         P: GetPointerKind,
     {
@@ -901,7 +901,7 @@ mod priv_ {
         where
             P: AsPtr,
         {
-            unsafe { &*(self.object.as_ptr() as *const P::PtrTarget as *const T) }
+            unsafe { &*(self.object.as_ptr() as *const T) }
         }
 
         // Safety: Only call this in unerasure functions
@@ -909,7 +909,7 @@ mod priv_ {
         where
             P: AsMutPtr,
         {
-            unsafe { &mut *(self.object.as_mut_ptr() as *mut P::PtrTarget as *mut T) }
+            unsafe { &mut *(self.object.as_mut_ptr() as *mut T) }
         }
 
         /// Gets a reference pointing to the erased object.
@@ -1042,7 +1042,7 @@ mod priv_ {
         }
     }
 
-    impl<'borr, P, I, EV> DynTrait<'borr, P, I, EV>
+    impl<P, I, EV> DynTrait<'_, P, I, EV>
     where
         P: GetPointerKind,
     {
@@ -1074,7 +1074,7 @@ mod priv_ {
         /// This will return an error in any of these conditions:
         ///
         /// - It is called in a dynamic library/binary outside
-        /// the one from which this `DynTrait<_>` was constructed.
+        ///     the one from which this `DynTrait<_>` was constructed.
         ///
         /// - The DynTrait was constructed using a `from_borrowing_*` method
         ///
@@ -1129,7 +1129,7 @@ mod priv_ {
         /// This will return an error in any of these conditions:
         ///
         /// - It is called in a dynamic library/binary outside
-        /// the one from which this `DynTrait<_>` was constructed.
+        ///     the one from which this `DynTrait<_>` was constructed.
         ///
         /// - The DynTrait was constructed using a `from_borrowing_*` method
         ///
@@ -1184,7 +1184,7 @@ mod priv_ {
         /// This will return an error in any of these conditions:
         ///
         /// - It is called in a dynamic library/binary outside
-        /// the one from which this `DynTrait<_>` was constructed.
+        ///     the one from which this `DynTrait<_>` was constructed.
         ///
         /// - The DynTrait was constructed using a `from_borrowing_*` method
         ///
@@ -1353,19 +1353,13 @@ mod priv_ {
     pub trait ReborrowBounds<SendNess, SyncNess> {}
 
     // If it's reborrowing, it must have either both Sync+Send or neither.
-    impl
-        ReborrowBounds<
-            Unimplemented<trait_marker::Send>,
-            Unimplemented<trait_marker::Sync>,
-        > for PrivStruct
+    impl ReborrowBounds<Unimplemented<trait_marker::Send>, Unimplemented<trait_marker::Sync>>
+        for PrivStruct
     {
     }
 
-    impl
-        ReborrowBounds<
-            Implemented<trait_marker::Send>,
-            Implemented<trait_marker::Sync>,
-        > for PrivStruct
+    impl ReborrowBounds<Implemented<trait_marker::Send>, Implemented<trait_marker::Sync>>
+        for PrivStruct
     {
     }
 
@@ -1471,7 +1465,7 @@ mod priv_ {
         }
     }
 
-    impl<'borr, P, I, EV> DynTrait<'borr, P, I, EV>
+    impl<P, I, EV> DynTrait<'_, P, I, EV>
     where
         P: AsPtr,
     {
@@ -1552,9 +1546,7 @@ mod priv_ {
         pub fn default(&self) -> Self
         where
             P: AsPtr + GetPointerKind<Kind = PK_SmartPointer>,
-            I: InterfaceType<
-                Default = Implemented<trait_marker::Default>,
-            >,
+            I: InterfaceType<Default = Implemented<trait_marker::Default>>,
             EV: Copy,
         {
             unsafe {
@@ -1570,9 +1562,7 @@ mod priv_ {
         pub fn serialize_into_proxy<'a>(&'a self) -> Result<I::ProxyType, RBoxError>
         where
             P: AsPtr,
-            I: InterfaceType<
-                Serialize = Implemented<trait_marker::Serialize>,
-            >,
+            I: InterfaceType<Serialize = Implemented<trait_marker::Serialize>>,
             I: GetSerializeProxyType<'a>,
         {
             unsafe { self.sabi_vtable().serialize()(self.sabi_erased_ref()).into_result() }
@@ -1588,7 +1578,7 @@ mod priv_ {
         }
     }
 
-    impl<'lt, I, EV: Clone> DynTrait<'lt, crate::std_types::RArc<()>, I, EV> {
+    impl<I, EV: Clone> DynTrait<'_, crate::std_types::RArc<()>, I, EV> {
         /// Does a shallow clone of the object, just incrementing the reference counter
         pub fn shallow_clone(&self) -> Self {
             Self {
@@ -1601,7 +1591,7 @@ mod priv_ {
         }
     }
 
-    impl<'borr, P, I, EV> Drop for DynTrait<'borr, P, I, EV>
+    impl<P, I, EV> Drop for DynTrait<'_, P, I, EV>
     where
         P: GetPointerKind,
     {
@@ -1673,7 +1663,7 @@ where
 ///
 /// ```
 ///
-impl<'borr, P, I, EV> Clone for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> Clone for DynTrait<'_, P, I, EV>
 where
     P: AsPtr,
     I: InterfaceType,
@@ -1686,7 +1676,7 @@ where
 
 //////////////////////
 
-impl<'borr, P, I, EV> Display for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> Display for DynTrait<'_, P, I, EV>
 where
     P: AsPtr,
     I: InterfaceType<Display = Implemented<trait_marker::Display>>,
@@ -1698,7 +1688,7 @@ where
     }
 }
 
-impl<'borr, P, I, EV> Debug for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> Debug for DynTrait<'_, P, I, EV>
 where
     P: AsPtr,
     I: InterfaceType<Debug = Implemented<trait_marker::Debug>>,
@@ -1710,7 +1700,7 @@ where
     }
 }
 
-impl<'borr, P, I, EV> std::error::Error for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> std::error::Error for DynTrait<'_, P, I, EV>
 where
     P: AsPtr,
     I: InterfaceType<
@@ -1825,7 +1815,7 @@ where
     }
 }
 
-impl<'borr, P, I, EV> Hash for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> Hash for DynTrait<'_, P, I, EV>
 where
     P: AsPtr,
     I: InterfaceType<Hash = Implemented<trait_marker::Hash>>,
@@ -1982,11 +1972,7 @@ where
     Self: Iterator<Item = Item>,
     P: AsMutPtr,
     I: IteratorItemOrDefault<'borr, Item = Item>,
-    I: InterfaceType<
-        DoubleEndedIterator = Implemented<
-            trait_marker::DoubleEndedIterator,
-        >,
-    >,
+    I: InterfaceType<DoubleEndedIterator = Implemented<trait_marker::DoubleEndedIterator>>,
     Item: 'borr,
 {
     fn next_back(&mut self) -> Option<Item> {
@@ -2002,11 +1988,7 @@ where
     Self: Iterator<Item = Item>,
     P: AsMutPtr,
     I: IteratorItemOrDefault<'borr, Item = Item>,
-    I: InterfaceType<
-        DoubleEndedIterator = Implemented<
-            trait_marker::DoubleEndedIterator,
-        >,
-    >,
+    I: InterfaceType<DoubleEndedIterator = Implemented<trait_marker::DoubleEndedIterator>>,
     Item: 'borr,
 {
     /// Gets teh `nth` element from the back of the iterator.
@@ -2070,7 +2052,7 @@ where
 
 //////////////////////////////////////////////////////////////////
 
-impl<'borr, P, I, EV> fmtWrite for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> fmtWrite for DynTrait<'_, P, I, EV>
 where
     P: AsMutPtr,
     I: InterfaceType<FmtWrite = Implemented<trait_marker::FmtWrite>>,
@@ -2102,7 +2084,7 @@ where
 
 /////////////
 
-impl<'borr, P, I, EV> io::Write for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> io::Write for DynTrait<'_, P, I, EV>
 where
     P: AsMutPtr,
     I: InterfaceType<IoWrite = Implemented<trait_marker::IoWrite>>,
@@ -2126,7 +2108,7 @@ where
 
 /////////////
 
-impl<'borr, P, I, EV> io::Read for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> io::Read for DynTrait<'_, P, I, EV>
 where
     P: AsMutPtr,
     I: InterfaceType<IoRead = Implemented<trait_marker::IoRead>>,
@@ -2150,7 +2132,7 @@ where
 
 /////////////
 
-impl<'borr, P, I, EV> io::BufRead for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> io::BufRead for DynTrait<'_, P, I, EV>
 where
     P: AsMutPtr,
     I: InterfaceType<
@@ -2177,7 +2159,7 @@ where
 
 /////////////
 
-impl<'borr, P, I, EV> io::Seek for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> io::Seek for DynTrait<'_, P, I, EV>
 where
     P: AsMutPtr,
     I: InterfaceType<IoSeek = Implemented<trait_marker::IoSeek>>,
@@ -2193,21 +2175,21 @@ where
 
 //////////////////////////////////////////////////////////////////
 
-unsafe impl<'borr, P, I, EV> Send for DynTrait<'borr, P, I, EV>
+unsafe impl<P, I, EV> Send for DynTrait<'_, P, I, EV>
 where
     P: Send + GetPointerKind,
     I: InterfaceType<Send = Implemented<trait_marker::Send>>,
 {
 }
 
-unsafe impl<'borr, P, I, EV> Sync for DynTrait<'borr, P, I, EV>
+unsafe impl<P, I, EV> Sync for DynTrait<'_, P, I, EV>
 where
     P: Sync + GetPointerKind,
     I: InterfaceType<Sync = Implemented<trait_marker::Sync>>,
 {
 }
 
-impl<'borr, P, I, EV> Unpin for DynTrait<'borr, P, I, EV>
+impl<P, I, EV> Unpin for DynTrait<'_, P, I, EV>
 where
     // `Unpin` is a property of the referent
     P: GetPointerKind,

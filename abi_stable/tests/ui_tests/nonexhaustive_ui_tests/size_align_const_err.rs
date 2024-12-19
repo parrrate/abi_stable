@@ -1,14 +1,8 @@
-use abi_stable::{
-    nonexhaustive_enum::NonExhaustiveFor as NEFor,
-    StableAbi,
-};
+use abi_stable::{nonexhaustive_enum::NonExhaustiveFor as NEFor, StableAbi};
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
-#[sabi(kind(WithNonExhaustive(
-    size = 1,
-    align = 1,
-)))]
+#[sabi(kind(WithNonExhaustive(size = 1, align = 1,)))]
 #[sabi(with_constructor)]
 pub enum TooLarge<T = u8> {
     Foo,
@@ -16,15 +10,13 @@ pub enum TooLarge<T = u8> {
     Baz(T),
 }
 
-const _: () = { std::mem::forget(NEFor::new(<TooLarge>::Foo)); };
+const _: () = {
+    std::mem::forget(NEFor::new(<TooLarge>::Foo));
+};
 
-
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
-#[sabi(kind(WithNonExhaustive(
-    size = 32,
-    align = 1,
-)))]
+#[sabi(kind(WithNonExhaustive(size = 32, align = 1,)))]
 #[sabi(with_constructor)]
 pub enum Unaligned<T = u64> {
     Foo,
@@ -32,9 +24,11 @@ pub enum Unaligned<T = u64> {
     Baz(T),
 }
 
-const _: () = { std::mem::forget(NEFor::new(<Unaligned>::Foo)); };
+const _: () = {
+    std::mem::forget(NEFor::new(<Unaligned>::Foo));
+};
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     size = {one()},
@@ -47,11 +41,12 @@ pub enum UnalignedAndTooLarge<T = u64> {
     Baz(T),
 }
 
-const _: () = { std::mem::forget(NEFor::new(<UnalignedAndTooLarge>::Foo)); };
+const _: () = {
+    std::mem::forget(NEFor::new(<UnalignedAndTooLarge>::Foo));
+};
 
 const fn one() -> usize {
     1
 }
 
-
-fn main(){}
+fn main() {}

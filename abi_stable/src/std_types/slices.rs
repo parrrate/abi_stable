@@ -320,22 +320,22 @@ impl<'a, T> RSlice<'a, T> {
         U: 'a,
     {
         let len = self.len();
-        unsafe { RSlice::from_raw_parts(self.as_ptr() as *const T as *const U, len) }
+        unsafe { RSlice::from_raw_parts(self.as_ptr() as *const U, len) }
     }
 }
 
 unsafe impl<'a, T> Send for RSlice<'a, T> where &'a [T]: Send {}
 unsafe impl<'a, T> Sync for RSlice<'a, T> where &'a [T]: Sync {}
 
-impl<'a, T> Copy for RSlice<'a, T> {}
+impl<T> Copy for RSlice<'_, T> {}
 
-impl<'a, T> Clone for RSlice<'a, T> {
+impl<T> Clone for RSlice<'_, T> {
     fn clone(&self) -> Self {
         *self
     }
 }
 
-impl<'a, T> Default for RSlice<'a, T> {
+impl<T> Default for RSlice<'_, T> {
     fn default() -> Self {
         (&[][..]).into()
     }
@@ -351,7 +351,7 @@ impl<'a, T> IntoIterator for RSlice<'a, T> {
     }
 }
 
-impl<'a, T, I: SliceIndex<[T]>> Index<I> for RSlice<'a, T> {
+impl<T, I: SliceIndex<[T]>> Index<I> for RSlice<'_, T> {
     type Output = I::Output;
 
     #[inline]
@@ -425,7 +425,7 @@ where
     }
 }
 
-impl<'a, T> Serialize for RSlice<'a, T>
+impl<T> Serialize for RSlice<'_, T>
 where
     T: Serialize,
 {
@@ -439,7 +439,7 @@ where
 
 ///////////////////////////////////////////////////////////////////////////////
 
-impl<'a> Read for RSlice<'a, u8> {
+impl Read for RSlice<'_, u8> {
     #[inline]
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
         let mut this = self.as_slice();
@@ -465,7 +465,7 @@ impl<'a> Read for RSlice<'a, u8> {
     }
 }
 
-impl<'a> BufRead for RSlice<'a, u8> {
+impl BufRead for RSlice<'_, u8> {
     #[inline]
     fn fill_buf(&mut self) -> io::Result<&[u8]> {
         Ok(&**self)

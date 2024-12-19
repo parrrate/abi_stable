@@ -142,43 +142,30 @@ declare_InterfaceType! {
         /// Changing this to require/unrequire in minor versions, is an abi breaking change.
         type Unpin;
 
-        ///
         type Clone;
 
-        ///
         type Default;
 
-        ///
         type Display;
 
-        ///
         type Debug;
 
-        ///
         type Serialize;
 
-        ///
         type Eq;
 
-        ///
         type PartialEq;
 
-        ///
         type Ord;
 
-        ///
         type PartialOrd;
 
-        ///
         type Hash;
 
-        ///
         type Deserialize;
 
-        ///
         type Iterator;
 
-        ///
         type DoubleEndedIterator;
 
         /// For the `std::fmt::Write` trait
@@ -309,7 +296,7 @@ where
     type ProxyType = <I as SerializeProxyType<'borr>>::Proxy;
 }
 
-impl<'borr, I> GetSerializeProxyTypeHelper<'borr, Unimplemented<trait_marker::Serialize>> for I
+impl<I> GetSerializeProxyTypeHelper<'_, Unimplemented<trait_marker::Serialize>> for I
 where
     I: InterfaceType,
 {
@@ -422,7 +409,7 @@ where
     type Item = Item;
 }
 
-impl<'borr, I> IteratorItemOrDefaultHelper<'borr, Unimplemented<trait_marker::Iterator>> for I {
+impl<I> IteratorItemOrDefaultHelper<'_, Unimplemented<trait_marker::Iterator>> for I {
     type Item = ();
 }
 

@@ -2,12 +2,9 @@
 
 use abi_stable::StableAbi;
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
-#[sabi(kind(WithNonExhaustive(
-    size = 1,
-    align = 1,
-)))]
+#[sabi(kind(WithNonExhaustive(size = 1, align = 1,)))]
 #[sabi(with_constructor)]
 pub enum TooLarge {
     Foo,
@@ -15,12 +12,9 @@ pub enum TooLarge {
     Baz(u8),
 }
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
-#[sabi(kind(WithNonExhaustive(
-    size = 32,
-    align = 1,
-)))]
+#[sabi(kind(WithNonExhaustive(size = 32, align = 1,)))]
 #[sabi(with_constructor)]
 pub enum Unaligned {
     Foo,
@@ -28,13 +22,9 @@ pub enum Unaligned {
     Baz(u64),
 }
 
-
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
-#[sabi(kind(WithNonExhaustive(
-    size = 1,
-    align = 1,
-)))]
+#[sabi(kind(WithNonExhaustive(size = 1, align = 1,)))]
 #[sabi(with_constructor)]
 pub enum UnalignedAndTooLarge {
     Foo,
@@ -42,4 +32,4 @@ pub enum UnalignedAndTooLarge {
     Baz(u64),
 }
 
-fn main(){}
+fn main() {}

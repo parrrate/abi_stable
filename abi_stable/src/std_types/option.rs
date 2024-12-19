@@ -11,13 +11,11 @@ use crate::std_types::RResult;
 /// `Option` is also ffi-safe for NonNull/NonZero types, and references.
 ///
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Ord, PartialOrd, Hash)]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 // #[sabi(debug_print)]
 pub enum ROption<T> {
-    ///
     RSome(T),
-    ///
     RNone,
 }
 

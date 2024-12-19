@@ -127,19 +127,19 @@ Declares the struct as being a prefix-type.
 Arguments (what goes inside `#[sabi(kind(Prefix(   <here>   )))]`):
 
 - `prefix_ref = <Identifier>)` (optional: defaults to `<DerivingType>_Ref`):
-Declares an ffi-safe pointer to a vtable/module,
-that can be extended in semver compatible versions.<br>
-Uses `<Identifier>` as the name of the prefix struct.<br>
-For more details on prefix-types [look here](./docs/prefix_types/index.html)
+    Declares an ffi-safe pointer to a vtable/module,
+    that can be extended in semver compatible versions.<br>
+    Uses `<Identifier>` as the name of the prefix struct.<br>
+    For more details on prefix-types [look here](./docs/prefix_types/index.html)
 
 - `prefix_fields = <Identifier>)` (optional: defaults to `<DerivingType>_Prefix`):<br>
-Declares a struct with all the fields in the deriving type up to (and including)
-the field with the [`#[sabi(last_prefix_field)]`](#sabilast_prefix_field) attribute,
-named `<Identifier>`.
+    Declares a struct with all the fields in the deriving type up to (and including)
+    the field with the [`#[sabi(last_prefix_field)]`](#sabilast_prefix_field) attribute,
+    named `<Identifier>`.
 
 - `prefix_ref_docs = <expression>` (optional, allows multiple):<br>
-Replaces the default documentation for `<DerivingType>_Ref` with the passed-in expresion.<br>
-If this is passed multiple times, then multiple `#[doc = ...]` attributes are emitted.
+    Replaces the default documentation for `<DerivingType>_Ref` with the passed-in expresion.<br>
+    If this is passed multiple times, then multiple `#[doc = ...]` attributes are emitted.
 
 <span id = "kind_with_non_exhaustive_attr"></span>
 ###  `#[sabi(kind(WithNonExhaustive( .. ))]` 
@@ -525,7 +525,7 @@ for that you have to use [nonexhaustive enums](./docs/sabi_nonexhaustive/index.h
 ```
 use abi_stable::{std_types::RString, StableAbi};
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 pub enum Command {
     LaunchRockets,

@@ -5,7 +5,7 @@ use crate::{abi_stability::ConstGeneric, sabi_types::Constructor};
 /////////////////////////////////////////////////////
 
 /// The `repr(..)` attribute used on a type.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum ReprAttr {
@@ -175,31 +175,18 @@ impl Display for GenericParams {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum TLPrimitive {
-    ///
     U8,
-    ///
     I8,
-    ///
     U16,
-    ///
     I16,
-    ///
     U32,
-    ///
     I32,
-    ///
     U64,
-    ///
     I64,
-    ///
     Usize,
-    ///
     Isize,
-    ///
     F32,
-    ///
     F64,
-    ///
     Bool,
     /// A `&T`
     SharedRef,
@@ -239,13 +226,11 @@ impl FmtFullType {
 ////////////////////////////////////
 
 /// Either a TLField or a TLFunction.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum TLFieldOrFunction {
-    ///
     Field(TLField),
-    ///
     Function(TLFunction),
 }
 

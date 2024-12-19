@@ -18,12 +18,10 @@ use std::cmp::{Eq, Ordering, PartialEq, PartialOrd};
 ///
 #[allow(clippy::derived_hash_with_manual_eq)]
 #[derive(Debug, Copy, Clone, Hash)]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 pub enum MaybeCmp<T> {
-    ///
     Just(T),
-    ///
     Nothing,
 }
 

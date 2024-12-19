@@ -38,10 +38,8 @@ macro_rules! impl_error_kind {
         #[allow(non_upper_case_globals)]
         impl RIoErrorKind {
             $(
-                ///
                 pub const $variant: Self = RIoErrorKind { value: $value };
             )*
-            ///
             pub const Other: Self = RIoErrorKind { value: 0 };
         }
 
@@ -122,14 +120,11 @@ impl_error_kind! {
 ///
 /// [`std::io::SeekFrom`]: https://doc.rust-lang.org/std/io/enum.SeekFrom.html
 #[derive(Copy, Clone, PartialEq, Eq, Ord, PartialOrd, Hash)]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 pub enum RSeekFrom {
-    ///
     Start(u64),
-    ///
     End(i64),
-    ///
     Current(i64),
 }
 

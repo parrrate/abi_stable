@@ -874,8 +874,8 @@ macro_rules! delegate_interface_serde {
                 $crate::nonexhaustive_enum::SerializeEnum<$this>
             >::Proxy;
 
-            fn serialize_enum<'a>(
-                this:&'a $this
+            fn serialize_enum(
+                this:&$this
             ) -> Result<Self::Proxy, $crate::std_types::RBoxError>{
                 <$delegates_to>::serialize_enum(this)
             }

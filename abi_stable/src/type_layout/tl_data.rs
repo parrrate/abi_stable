@@ -3,27 +3,20 @@ use super::*;
 ////////////////////////////////////////////////////////////////////////////////
 
 /// The parts of TLData that don't change based on generic parameters.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Copy, Clone, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum MonoTLData {
-    ///
     Primitive(TLPrimitive),
     /// A type that's only compared for size and alignment.
     Opaque,
-    ///
     Struct {
-        ///
         fields: CompTLFields,
     },
-    ///
     Union {
-        ///
         fields: CompTLFields,
     },
-    ///
     Enum(MonoTLEnum),
-    ///
     PrefixType(MonoTLPrefixType),
 }
 
@@ -176,17 +169,12 @@ impl Display for MismatchedTLDataVariant {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum TLDataDiscriminant {
-    ///
     Primitive,
     /// A type that's only compared for size and alignment.
     Opaque,
-    ///
     Struct,
-    ///
     Union,
-    ///
     Enum,
-    ///
     PrefixType,
 }
 
@@ -197,17 +185,12 @@ pub enum TLDataDiscriminant {
 #[derive(Copy, Clone, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum GenericTLData {
-    ///
     Primitive,
     /// A type that's only compared for size and alignment.
     Opaque,
-    ///
     Struct,
-    ///
     Union,
-    ///
     Enum(GenericTLEnum),
-    ///
     PrefixType(GenericTLPrefixType),
 }
 
@@ -246,15 +229,9 @@ pub enum TLData {
     /// with the same byte length as this layout .
     Opaque,
     /// For structs.
-    Struct {
-        ///
-        fields: TLFields,
-    },
+    Struct { fields: TLFields },
     /// For unions.
-    Union {
-        ///
-        fields: TLFields,
-    },
+    Union { fields: TLFields },
     /// For enums.
     Enum(TLEnum),
     /// vtables and modules that can be extended in minor versions.

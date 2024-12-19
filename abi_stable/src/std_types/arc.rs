@@ -383,7 +383,7 @@ impl<T> Drop for RArc<T> {
         // actually support ?Sized types.
         unsafe {
             let vtable = self.vtable();
-            (vtable.destructor())(self.data() as *const T, CallReferentDrop::Yes);
+            (vtable.destructor())(self.data(), CallReferentDrop::Yes);
         }
     }
 }

@@ -25,7 +25,7 @@ members = [
     "testing/1 - loading errors/interface_1",
     "testing/1 - loading errors/user_1",
     "testing/version_compatibility/interface",
-    "testing/version_compatibility/impl_0",
+    # "testing/version_compatibility/impl_0",
     "testing/version_compatibility/user_0",
     "tools/*",
     "playground/",

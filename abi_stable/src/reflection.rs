@@ -14,7 +14,7 @@ pub mod export_module;
 /// Whether this is a module whose definition can be reflected on at runtime,
 ///
 /// Module reflection only allows accessing public fields.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 pub enum ModReflMode {
     /// For modules that are reflected on at runtime.

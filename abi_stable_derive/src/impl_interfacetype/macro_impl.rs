@@ -59,9 +59,8 @@ pub fn the_macro(mut impl_: ItemImpl) -> Result<TokenStream2, syn::Error> {
             let name = &assoc_ty.ident;
             let span = name.span();
 
-            assoc_ty.ty = syn::Type::Verbatim(
-                quote_spanned!(span=> ImplFrom<#old_ty, trait_marker::#name> ),
-            );
+            assoc_ty.ty =
+                syn::Type::Verbatim(quote_spanned!(span=> ImplFrom<#old_ty, trait_marker::#name> ));
         }
     }
 

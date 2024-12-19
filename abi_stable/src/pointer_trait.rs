@@ -24,9 +24,7 @@ mod tests;
 #[repr(u8)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 pub enum CallReferentDrop {
-    ///
     Yes,
-    ///
     No,
 }
 
@@ -34,9 +32,7 @@ pub enum CallReferentDrop {
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, StableAbi)]
 pub enum Deallocate {
-    ///
     No,
-    ///
     Yes,
 }
 
@@ -57,14 +53,14 @@ pub unsafe trait GetPointerKind: Sized {
     /// This is what each kind requires to be used as this associated type:
     ///
     /// - [`PK_Reference`]: `Self` must be a `&T`,
-    /// or a `Copy` and `#[repr(transparent)]` wrapper around a raw pointer or reference,
-    /// with `&T` semantics.
-    /// Note that converting into and then back from `&Self::PtrTarget` might
-    /// be a lossy operation for such a type and therefore incorrect.
+    ///     or a `Copy` and `#[repr(transparent)]` wrapper around a raw pointer or reference,
+    ///     with `&T` semantics.
+    ///     Note that converting into and then back from `&Self::PtrTarget` might
+    ///     be a lossy operation for such a type and therefore incorrect.
     ///
     /// - [`PK_MutReference`]: `Self` must be a `&mut T`,
-    /// or a non-`Drop` and `#[repr(transparent)]` wrapper around a
-    /// primitive pointer, with `&mut T` semantics.
+    ///     or a non-`Drop` and `#[repr(transparent)]` wrapper around a
+    ///     primitive pointer, with `&mut T` semantics.
     ///
     /// - [`PK_SmartPointer`]: Any pointer type that's neither of the two other kinds.
     ///
@@ -93,14 +89,16 @@ pub unsafe trait GetPointerKind: Sized {
     const KIND: PointerKind = <Self::Kind as PointerKindVariant>::VALUE;
 }
 
-unsafe impl<'a, T> GetPointerKind for &'a T {
+unsafe impl<T> GetPointerKind for &T {
     type Kind = PK_Reference;
     type PtrTarget = T;
 }
 
-unsafe impl<'a, T> GetPointerKind for &'a mut T {
+unsafe impl<T> GetPointerKind for &mut T {
     type Kind = PK_MutReference;
     type PtrTarget = T;
+
+    const KIND: PointerKind = <Self::Kind as PointerKindVariant>::VALUE;
 }
 
 ////////////////////////////////////////////
@@ -176,16 +174,16 @@ impl PointerKindVariant for PK_SmartPointer {
 /// Implementors of this trait must ensure that:
 ///
 /// - The memory layout of this
-/// type is the same regardless of the type of the referent.
+///     type is the same regardless of the type of the referent.
 ///
 /// - The pointer type is either `!Drop`(no drop glue either),
-/// or it uses a vtable to Drop the referent and deallocate the memory correctly.
+///     or it uses a vtable to Drop the referent and deallocate the memory correctly.
 ///
 /// - `transmute_element_` must return a pointer to the same allocation as `self`,
-/// at the same offset,
-/// and with no reduced provenance
-/// (the range of addresses that are valid to dereference with pointers
-/// derived from the returned pointer).
+///     at the same offset,
+///     and with no reduced provenance
+///     (the range of addresses that are valid to dereference with pointers
+///     derived from the returned pointer).
 ///
 /// # Example
 ///

@@ -204,4 +204,4 @@ impl<'a> Iterator for IFOMIter<'a> {
     }
 }
 
-impl<'a> std::iter::ExactSizeIterator for IFOMIter<'a> {}
+impl std::iter::ExactSizeIterator for IFOMIter<'_> {}

@@ -39,20 +39,15 @@ pub enum LibraryError {
     ParseVersionError(ParseVersionError),
     /// The version numbers of the library was incompatible.
     IncompatibleVersionNumber {
-        ///
         library_name: &'static str,
-        ///
         expected_version: VersionNumber,
-        ///
         actual_version: VersionNumber,
     },
     /// Error returned by the root module
     RootModule {
         /// The error returned by the `#[export_root_module]` function.
         err: RootModuleError,
-        ///
         module_name: &'static str,
-        ///
         version: VersionStrings,
     },
     /// The abi is incompatible.
@@ -64,9 +59,7 @@ pub enum LibraryError {
     InvalidAbiHeader(AbiHeader),
     /// When Rust changes how it implements the C abi,
     InvalidCAbi {
-        ///
         expected: RBoxError,
-        ///
         found: RBoxError,
     },
     /// There could have been 0 or more errors in the function.
@@ -161,7 +154,7 @@ impl ::std::error::Error for LibraryError {}
 //////////////////////////////////////////////////////////////////////
 
 /// The errors that a `#[export_root_module]` function can return.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, StableAbi)]
 pub enum RootModuleError {
     /// When the root loader function returned an error normally

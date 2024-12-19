@@ -6,13 +6,11 @@ use crate::std_types::{RNone, ROption, RSome};
 
 /// Ffi-safe equivalent of `Result<T, E>`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Ord, PartialOrd, Hash, Deserialize, Serialize)]
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 pub enum RResult<T, E> {
-    ///
     #[serde(rename = "Ok")]
     ROk(T),
-    ///
     #[serde(rename = "Err")]
     RErr(E),
 }

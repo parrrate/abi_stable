@@ -3,7 +3,7 @@ use crate::std_types::RStr;
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Whether a field is accessible,and how it is accessed.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum FieldAccessor {
@@ -12,10 +12,7 @@ pub enum FieldAccessor {
     /// Accessible with `fn field_name(&self)->FieldType`
     Method,
     /// Accessible with `fn name(&self)->FieldType`
-    MethodNamed {
-        ///
-        name: RStr<'static>,
-    },
+    MethodNamed { name: RStr<'static> },
     /// Accessible with `fn field_name(&self)->Option<FieldType>`
     MethodOption,
     /// This field is completely inaccessible.

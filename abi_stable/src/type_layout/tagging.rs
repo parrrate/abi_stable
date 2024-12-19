@@ -235,36 +235,27 @@ pub struct Tag {
 }
 
 /// All the Tag variants.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum TagVariant {
-    ///
     Primitive(Primitive),
     /// A Tag that's considered compatible with any other
     Ignored(&'static Tag),
-    ///
     Array(RSlice<'static, Tag>),
-    ///
     Set(RSlice<'static, Tag>),
-    ///
     Map(RSlice<'static, KeyValue<Tag>>),
 }
 
 /// The primitive types of a variant,which do not contain other nested tags.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum Primitive {
-    ///
     Null,
-    ///
     Bool(bool),
-    ///
     Int(i64),
-    ///
     UInt(u64),
-    ///
     String_(RStr<'static>),
 }
 
@@ -277,19 +268,15 @@ pub struct CheckableTag {
 }
 
 /// The possible variants of CheckableTag.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, StableAbi)]
 #[sabi(unsafe_sabi_opaque_fields)]
 pub enum CTVariant {
-    ///
     Primitive(Primitive),
     /// A Tag that's considered compatible with any other
     Ignored(RBox<CheckableTag>),
-    ///
     Array(RVec<CheckableTag>),
-    ///
     Set(RVec<KeyValue<CheckableTag>>),
-    ///
     Map(RVec<KeyValue<CheckableTag>>),
 }
 
@@ -297,9 +284,7 @@ pub enum CTVariant {
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, StableAbi)]
 pub struct KeyValue<T> {
-    ///
     pub key: T,
-    ///
     pub value: T,
 }
 
@@ -314,7 +299,7 @@ impl TagTrait for Tag {
     }
 }
 
-impl<'a> TagTrait for &'a Tag {
+impl TagTrait for &Tag {
     fn is_null(&self) -> bool {
         self.variant == TagVariant::Primitive(Primitive::Null)
     }
@@ -335,7 +320,7 @@ where
     }
 }
 
-impl<'a, KV> TagTrait for &'a KeyValue<KV>
+impl<KV> TagTrait for &KeyValue<KV>
 where
     KV: TagTrait,
 {
@@ -344,7 +329,7 @@ where
     }
 }
 
-impl<'a> TagTrait for &'a CheckableTag {
+impl TagTrait for &CheckableTag {
     fn is_null(&self) -> bool {
         *self == &Tag::null().to_checkable()
     }
@@ -851,7 +836,7 @@ unsafe impl ExtraChecks for Tag {
 
 /////////////////////////////////////////////////////////////////
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Clone, PartialEq, StableAbi)]
 pub(crate) enum TagErrorVariant {
     MismatchedDiscriminant,

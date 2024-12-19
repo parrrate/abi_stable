@@ -41,7 +41,7 @@ Exhaustive enums being ones that are declared like this:
 ```rust
 use abi_stable::{std_types::RString, StableAbi};
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 enum Exhaustive {
     A,

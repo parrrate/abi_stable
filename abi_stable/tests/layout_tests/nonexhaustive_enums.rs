@@ -66,7 +66,7 @@ where
                 }
                 let errs = res.unwrap_err().flatten_errors();
 
-                f(&*errs);
+                f(&errs);
             }
         }
     }

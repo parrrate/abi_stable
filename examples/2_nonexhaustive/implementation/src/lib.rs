@@ -2,13 +2,11 @@ use std::{collections::HashMap, mem};
 
 use abi_stable::{
     export_root_module,
-    external_types::RawValueBox,
     nonexhaustive_enum::{NonExhaustive, NonExhaustiveFor},
     prefix_type::PrefixTypeTrait,
     rtry, sabi_extern_fn,
     sabi_trait::prelude::TD_Opaque,
     std_types::{RBox, RBoxError, RErr, ROk, RResult, RStr, RString, RVec},
-    traits::IntoReprC,
 };
 
 use core_extensions::SelfOps;
@@ -48,8 +46,8 @@ struct ShopState {
 #[derive(Debug, Clone)]
 struct Item {
     name: RString,
-    id: ItemId,
-    price: Cents,
+    _id: ItemId,
+    _price: Cents,
     count: u32,
 }
 
@@ -77,8 +75,8 @@ impl Shop for ShopState {
                         entry.insert(self.items.len());
                         self.items.push(Item {
                             name,
-                            id,
-                            price,
+                            _id: id,
+                            _price: price,
                             count,
                         });
                         ReturnVal::CreateItem { count, id }

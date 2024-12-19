@@ -1,6 +1,6 @@
 use abi_stable::StableAbi;
 
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     size = 2,
@@ -14,7 +14,7 @@ pub enum OkSize {
 
 // The size of the storage is actually `align_of::<usize>()`,
 // because the alignment defaults to that of a usize
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(StableAbi)]
 #[sabi(kind(WithNonExhaustive(
     size = 1,

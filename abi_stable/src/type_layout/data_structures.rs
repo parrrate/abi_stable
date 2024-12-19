@@ -11,7 +11,6 @@ use std::cmp::{Eq, PartialEq};
 pub struct ArrayLen<A> {
     /// the length of initialized elements in `array`
     pub len: u16,
-    ///
     pub array: A,
 }
 

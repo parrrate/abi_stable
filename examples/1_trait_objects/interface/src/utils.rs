@@ -42,7 +42,7 @@ where
     (|| -> Result<RString, Error> {
         let command = command.as_str();
 
-        let which_variant = serde_json::from_str::<WhichVariant>(&command)
+        let which_variant = serde_json::from_str::<WhichVariant>(command)
             .map_err(|e| Error::Deserialize(RBoxError::new(e), WhichCommandRet::Command))?;
 
         let command = serde_json::from_str::<CommandUnion<C>>(command).map_err(|e| {
@@ -105,7 +105,7 @@ where
 
     let ret = this.json_command(RStr::from(&*cmd), app).into_result()?;
 
-    let which_variant = serde_json::from_str::<WhichVariant>(&*ret)
+    let which_variant = serde_json::from_str::<WhichVariant>(&ret)
         .map_err(|e| Error::Deserialize(RBoxError::new(e), WhichCommandRet::Return))?;
 
     serde_json::from_str::<C::Returns>(&ret).map_err(|e| {

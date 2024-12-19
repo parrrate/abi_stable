@@ -70,16 +70,16 @@ pub struct Drain<'a> {
     pub(super) variance: PhantomData<&'a mut [char]>,
 }
 
-impl<'a> fmt::Debug for Drain<'a> {
+impl fmt::Debug for Drain<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.pad("Drain { .. }")
     }
 }
 
-unsafe impl<'a> Sync for Drain<'a> {}
-unsafe impl<'a> Send for Drain<'a> {}
+unsafe impl Sync for Drain<'_> {}
+unsafe impl Send for Drain<'_> {}
 
-impl<'a> Drain<'a> {
+impl Drain<'_> {
     /// Returns a string slice over the remainder of the string that is being drained.
     ///
     /// # Example
@@ -108,7 +108,7 @@ impl<'a> Drain<'a> {
     }
 }
 
-impl<'a> Drop for Drain<'a> {
+impl Drop for Drain<'_> {
     fn drop(&mut self) {
         unsafe {
             let self_vec = &mut (*self.string).inner;
@@ -119,7 +119,7 @@ impl<'a> Drop for Drain<'a> {
     }
 }
 
-impl<'a> Iterator for Drain<'a> {
+impl Iterator for Drain<'_> {
     type Item = char;
 
     #[inline]
@@ -132,11 +132,11 @@ impl<'a> Iterator for Drain<'a> {
     }
 }
 
-impl<'a> DoubleEndedIterator for Drain<'a> {
+impl DoubleEndedIterator for Drain<'_> {
     #[inline]
     fn next_back(&mut self) -> Option<char> {
         self.iter.next_back()
     }
 }
 
-impl<'a> FusedIterator for Drain<'a> {}
+impl FusedIterator for Drain<'_> {}

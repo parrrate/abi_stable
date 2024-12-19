@@ -257,7 +257,7 @@ impl<T: Default> Default for RMutex<T> {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-impl<'a, T> Display for RMutexGuard<'a, T>
+impl<T> Display for RMutexGuard<'_, T>
 where
     T: Display,
 {
@@ -266,7 +266,7 @@ where
     }
 }
 
-impl<'a, T> Debug for RMutexGuard<'a, T>
+impl<T> Debug for RMutexGuard<'_, T>
 where
     T: Debug,
 {
@@ -275,7 +275,7 @@ where
     }
 }
 
-impl<'a, T> Deref for RMutexGuard<'a, T> {
+impl<T> Deref for RMutexGuard<'_, T> {
     type Target = T;
 
     fn deref(&self) -> &T {
@@ -283,13 +283,13 @@ impl<'a, T> Deref for RMutexGuard<'a, T> {
     }
 }
 
-impl<'a, T> DerefMut for RMutexGuard<'a, T> {
+impl<T> DerefMut for RMutexGuard<'_, T> {
     fn deref_mut(&mut self) -> &mut T {
         unsafe { &mut *self.rmutex.data.get() }
     }
 }
 
-impl<'a, T> Drop for RMutexGuard<'a, T> {
+impl<T> Drop for RMutexGuard<'_, T> {
     fn drop(&mut self) {
         let vtable = self.rmutex.vtable();
         vtable.unlock()(&self.rmutex.raw_mutex);

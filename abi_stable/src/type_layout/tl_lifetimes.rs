@@ -46,16 +46,14 @@ impl LifetimeRange {
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Either an array of 3 `LifetimeIndexPair`,or a slice of `LifetimeIndexPair`.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, StableAbi)]
 pub enum LifetimeArrayOrSlice<'a> {
-    ///
     Slice(RSlice<'a, LifetimeIndexPair>),
-    ///
     Array(ArrayLen<[LifetimeIndexPair; 3]>),
 }
 
-impl<'a> LifetimeArrayOrSlice<'a> {
+impl LifetimeArrayOrSlice<'_> {
     /// An empty `LifetimeArrayOrSlice`.
     pub const EMPTY: Self = LifetimeArrayOrSlice::Array(ArrayLen {
         len: 0,
@@ -75,7 +73,7 @@ impl<'a> LifetimeArrayOrSlice<'a> {
     }
 }
 
-impl<'a> Deref for LifetimeArrayOrSlice<'a> {
+impl Deref for LifetimeArrayOrSlice<'_> {
     type Target = [LifetimeIndexPair];
 
     #[inline]
@@ -84,7 +82,7 @@ impl<'a> Deref for LifetimeArrayOrSlice<'a> {
     }
 }
 
-impl<'a, I, Output: ?Sized> Index<I> for LifetimeArrayOrSlice<'a>
+impl<I, Output: ?Sized> Index<I> for LifetimeArrayOrSlice<'_>
 where
     [LifetimeIndexPair]: Index<I, Output = Output>,
 {

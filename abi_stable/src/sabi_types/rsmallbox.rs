@@ -56,7 +56,7 @@ mod private {
     /// ```
     /// use abi_stable::{reexports::SelfOps, sabi_types::RSmallBox, std_types::RString, StableAbi};
     ///
-    /// #[repr(u8)]
+    /// #[repr(C, u8)]
     /// #[derive(StableAbi, Debug, Clone, PartialEq)]
     /// #[sabi(kind(WithNonExhaustive(
     ///     // Determines the maximum size of this enum in semver compatible versions.

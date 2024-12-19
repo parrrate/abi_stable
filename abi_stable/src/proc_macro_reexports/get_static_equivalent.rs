@@ -2,9 +2,9 @@
 
 The `GetStaticEquivalent` macro derives the [`GetStaticEquivalent_`] trait.
 
-Implementing [`GetStaticEquivalent_`] allows the type to be passed as a 
+Implementing [`GetStaticEquivalent_`] allows the type to be passed as a
 type argument of a type deriving `StableAbi`,
-that used the 
+that used the
 [`#[sabi(not_stableabi(TypeParameter))]`](derive@crate::StableAbi#sabinot_stableabitypeparameter)
 helper attribute.
 
@@ -16,7 +16,7 @@ These helper attributes are applied on the type declaration.
 ### `#[sabi(impl_InterfaceType(...))]`
 
 Implements the `InterfaceType` trait for a type,
-defining the usable/required traits when creating a 
+defining the usable/required traits when creating a
 `DynTrait<_, ThisType>`/`NonExhaustive<_, _, ThisType>`.
 
 Syntax: `#[sabi(impl_InterfaceType(Trait0, Trait1, ..., TraitN))]`
@@ -26,12 +26,12 @@ it will not be required when constructing DynTrait/NonExhaustive,
 and won't be usable afterwards.
 
 <a href = "./derive.StableAbi.html#InterfaceType_traits">
-    The list of valid traits is here 
+    The list of valid traits is here
 </a>
 
 # Examples
 
-###  Using an associated constant 
+###  Using an associated constant
 
 This example demonstrates how one can have a type parameter,
 and use the value of an associated constant as the identity of the type.
@@ -110,7 +110,7 @@ assert!(check_layout_compatibility(
 
 ```
 
-###  Using an associated type 
+###  Using an associated type
 
 This example demonstrates how one can have a type parameter,
 and use its associated type as a field.
@@ -135,6 +135,5 @@ where
 [`GetStaticEquivalent_`]: abi_stable::abi_stability::get_static_equivalent::GetStaticEquivalent_
 
 */
-
 #[doc(inline)]
 pub use abi_stable_derive::GetStaticEquivalent;

@@ -17,7 +17,7 @@ use core_extensions::{SelfOps, StringExt};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 /// A way to choose to which plugins one refers to when sending commands,and other operations.
-#[repr(u8)]
+#[repr(C, u8)]
 #[derive(Debug, Clone, PartialEq, Eq, StableAbi)]
 pub enum WhichPlugin {
     Id(PluginId),
@@ -84,7 +84,7 @@ impl WhichPlugin {
             .map(|s| s.trim())
             .collect::<ArrayVec<&str, 2>>();
         let named = splitted
-            .get(0)
+            .first()
             .filter(|s| !s.is_empty())
             .ok_or_else(|| WhichPluginError(full_str.into()))?
             .to_string()

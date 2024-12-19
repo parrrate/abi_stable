@@ -128,6 +128,7 @@ unsafe impl PrefixStableAbi for ErasedPrefix {
 ///
 /// [`StableAbi`]: ../trait.StableAbi.html
 ///
+#[repr(C)]
 pub struct UnsafeIgnoredType<T: ?Sized> {
     /// This field must be public to promise (for semver) that a repr change would be a breaking
     /// change (see <https://github.com/rust-lang/rust/issues/78586>), which is important as this is
@@ -199,6 +200,7 @@ unsafe impl<T> StableAbi for UnsafeIgnoredType<T> {
 //////////////////////////////////////////////////////////////
 
 /// An ffi-safe equivalent of a `PhantomData<fn()->T>`
+#[repr(C)]
 pub struct NonOwningPhantom<T: ?Sized> {
     // The StableAbi layout for a `NonOwningPhantom<T>` is the same as `PhantomData<T>`,
     // the type of this field is purely for variance.

@@ -31,7 +31,7 @@ impl<'a, K> MapQuery<'a, K> {
     }
 }
 
-impl<'a, K> MapQuery<'a, K> {
+impl<K> MapQuery<'_, K> {
     #[inline]
     pub(super) fn is_equal(&self, other: &K) -> bool {
         (self.is_equal)(other, self.query)
@@ -43,7 +43,7 @@ impl<'a, K> MapQuery<'a, K> {
     }
 }
 
-impl<'a, K> Hash for MapQuery<'a, K> {
+impl<K> Hash for MapQuery<'_, K> {
     #[inline]
     fn hash<H>(&self, hasher: &mut H)
     where

@@ -88,7 +88,7 @@ pub mod command_one_more_traits_3 {
 pub mod command_a {
     use std::fmt::{self, Display};
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialEq, Eq, Clone)]
     #[sabi(kind(WithNonExhaustive(size = 64, traits(Debug, PartialEq, Eq, Clone))))]
     pub enum Foo {
@@ -106,7 +106,7 @@ pub mod command_a {
 pub mod command_a_exhaustive {
     use std::fmt::{self, Display};
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialEq, Eq, Clone)]
     pub enum Foo {
         A,
@@ -123,7 +123,7 @@ pub mod command_a_exhaustive {
 pub mod command_b {
     use std::fmt::{self, Display};
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialEq, Eq, Clone)]
     #[sabi(kind(WithNonExhaustive(size = 64, traits(Debug, PartialEq, Eq, Clone))))]
     pub enum Foo {
@@ -142,7 +142,7 @@ pub mod command_b {
 pub mod command_c {
     use crate::std_types::RString;
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialEq, Eq, Clone)]
     #[sabi(kind(WithNonExhaustive(size = 64, traits(Debug, PartialEq, Eq, Clone))))]
     pub enum Foo {
@@ -156,7 +156,7 @@ pub mod command_c {
 pub mod command_c_mismatched_field {
     use crate::std_types::RVec;
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialEq, Eq, Clone)]
     #[sabi(kind(WithNonExhaustive(size = 64, traits(Debug, PartialEq, Eq, Clone))))]
     pub enum Foo {
@@ -174,7 +174,7 @@ pub mod command_serde {
 
     use crate::std_types::RString;
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(
         StableAbi, Hash, Debug, PartialEq, Eq, Ord, PartialOrd, Clone, Deserialize, Serialize,
     )]
@@ -209,7 +209,7 @@ pub mod command_serde {
 }
 
 pub mod too_large {
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialEq, Eq, Clone)]
     #[sabi(kind(WithNonExhaustive(size = 64, traits(Debug, PartialEq, Eq, Clone))))]
     pub enum Foo<T = i8> {
@@ -222,7 +222,7 @@ pub mod too_large {
 pub mod generic_a {
     use std::fmt::{self, Display};
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Hash, Debug, PartialOrd, Ord, PartialEq, Eq, Clone)]
     #[sabi(kind(WithNonExhaustive(
         size = 64,
@@ -250,7 +250,7 @@ pub mod generic_a {
 }
 
 pub mod generic_b {
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Debug, PartialEq)]
     #[sabi(kind(WithNonExhaustive(size = 64, align = 8, traits(Debug, PartialEq))))]
     pub enum Foo<T> {
@@ -334,7 +334,7 @@ pub mod const_expr_size_align {
         2
     }
 
-    #[repr(u8)]
+    #[repr(C, u8)]
     #[derive(StableAbi, Debug, PartialEq)]
     #[sabi(kind(WithNonExhaustive(
         size = { size() },
@@ -382,7 +382,7 @@ pub mod codecs {
         }
     }
 
-    impl<'borr, E, S, I> DeserializeEnum<'borr, NonExhaustive<E, S, I>> for Json
+    impl<E, S, I> DeserializeEnum<'_, NonExhaustive<E, S, I>> for Json
     where
         E: GetVTable<S, I> + for<'de> Deserialize<'de>,
     {

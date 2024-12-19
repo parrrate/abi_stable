@@ -12,7 +12,7 @@ pub struct RIter<'a, T> {
     pub(super) channel: &'a RReceiver<T>,
 }
 
-impl<'a, T> Iterator for RIter<'a, T> {
+impl<T> Iterator for RIter<'_, T> {
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
@@ -20,7 +20,7 @@ impl<'a, T> Iterator for RIter<'a, T> {
     }
 }
 
-impl<'a, T> Debug for RIter<'a, T> {
+impl<T> Debug for RIter<'_, T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.pad("RIter{..}")
     }
