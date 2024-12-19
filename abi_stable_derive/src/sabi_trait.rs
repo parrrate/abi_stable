@@ -153,6 +153,7 @@ pub fn derive_sabi_trait(item: ItemTrait) -> Result<TokenStream2, syn::Error> {
         #doc_hidden_attr
         #(#[doc = #mod_docs])*
         #[allow(explicit_outlives_requirements)]
+        #[allow(clippy::needless_lifetimes)]
         #vis mod #generated_mod{
             #mod_contents
         }
